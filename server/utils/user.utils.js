@@ -8,6 +8,9 @@ const isValidEmail = (email) => {
     return regex.test(String(password));
   }
   
-  export default isValidEmail;
-  export default isValidPassword;
+  export default {
+      ValidEmail: isValidEmail, 
+      ValidPassword: isValidPassword
+  }
+
   
