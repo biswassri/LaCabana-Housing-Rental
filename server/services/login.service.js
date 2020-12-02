@@ -14,7 +14,7 @@ const authenticate = async (body) =>{
     }
 }
 
-
+//This is for user creation
 const create = async (userParam) => {
     console.log("here in register");
     // validate
@@ -39,7 +39,7 @@ const create = async (userParam) => {
     return u;
 }
 
-
+//For updating the user details
 const update = async (id, userParam) => {
 
     const user = await User.findById({_id : id});
@@ -79,17 +79,6 @@ const getByUsername = async(body) => {
     const promise = await User.findOne({username }).exec();
     return promise;
 }
-
-
-//This service is to update the User.
-// const update = (id, updatedToDo) => {
-//     const promise = ToDo.findByIdAndUpdate(
-//         { _id:id },
-//         updatedToDo,
-//         {new:true}
-//     ).exec();
-//     return promise;
-// }
 
 //This service is to delete the User.
 const remove = (id) => {

@@ -23,4 +23,5 @@ loginRouter.route('/user/:id')
 
 loginRouter.route('/user/self').get(LoginController.getByUsername);
 
+//export loginRouter
 export default loginRouter;
