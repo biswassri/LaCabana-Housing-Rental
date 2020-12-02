@@ -1,7 +1,7 @@
 import User from '../models/user.model.js';
 const bcrypt = require('bcryptjs');
 
-
+//Service to authenticate the user
 const authenticate = async (body) =>{
     let username = body.username;
     let password = body.password;

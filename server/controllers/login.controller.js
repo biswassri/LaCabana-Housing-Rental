@@ -26,6 +26,7 @@ const getByUsername = (req, res, next) => {
         .catch(err => next(err));
 }
 
+//This gets all the users from the db
 const getAllUsers= (req,res,next) =>{
     loginService.search({})
         .then(user => user ? res.json(user) : "No users yet ")
