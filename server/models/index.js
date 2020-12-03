@@ -1,7 +1,6 @@
-import user from './userSchema';
-import posting from './postingSchema';
+import user from './user.model.js';
 
+//exporting all the models from here.
 export default {
-    User : user,
-    Posting: posting
+    User : user
 };

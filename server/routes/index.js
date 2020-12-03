@@ -1,9 +1,6 @@
-var express = require('express');
-var router = express.Router();
+import loginRouter from './login.route';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+//Common route which is present for all. This now calls the specific routes from the other module.
+export default (app) => {
+  app.use('/lacabana/login', loginRouter);
+};
