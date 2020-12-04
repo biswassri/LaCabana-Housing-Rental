@@ -6,6 +6,7 @@
 .pnp.js
 dist/
 .DS_STore
+.eslintcache
 
 # testing
 /coverage
