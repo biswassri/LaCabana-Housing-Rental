@@ -1,6 +1,5 @@
-# Home Rental Application 
 
-### Problem Statement
+Problem Statement
 
 The aim of this project is to develop an application specially for students moving to a new place which will help them find good place within budget and roommates with similar interests and preferences. We also plan on linking local brokers and landlords along with their listings and helping students connect with them over the application to finalize a place and provide them with a safe gateway to make payments. This eliminates any sort of fraud and risks associated with making transfers internationally and provides assurance to both the brokers and the students.
 
