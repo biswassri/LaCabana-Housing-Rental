@@ -2,6 +2,7 @@ import './dist/App.css';
 import React, { Component } from 'react';
 import Header from './components/nav';
 import Footer from './components/footer';
+import Slider from './components/slider';
 
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
       <div className="page-container">
         <div className="content-wrap">
           <Header /> 
+          <Slider />
           <Footer />
         </div>
       </div>

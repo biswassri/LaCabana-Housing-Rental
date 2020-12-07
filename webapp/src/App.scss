@@ -15,9 +15,20 @@
 .main-footer {
     background-color: #e6e6e6;
     color: #f5992a;
-    position:absolute;
     left:0;
     bottom:0;
     right:0;
     padding-top: 3em;
+}
+
+.image-slider-item {
+    height: 80vh;
+}
+
+.image-slider{
+    height: 80vh;
+}
+
+.image-container {
+    object-fit: cover;
 }
