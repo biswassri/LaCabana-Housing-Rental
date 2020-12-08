@@ -1,4 +1,4 @@
-import posting from '../models/posting.model';
+import Posting from '../models/posting.model';
 const bcrypt = require('bcryptjs');
 
 //Service to authenticate the user
@@ -16,71 +16,108 @@ const authenticate = async (body) =>{
 
 //This is for user creation
 const create = async (userParam) => {
-    console.log("here in register");
-    // validate
-    let username = userParam.username;
-    let reg = await User.find({username}).exec();
-    console.log(reg);
-    console.log(reg == "");
-    console.log(reg == null);
-    if (reg != "") {
-        throw 'Username "' + userParam.username + '" is already taken';
+    console.log("here in create posting");
+    // search for userID
+    let u = await User.findOne({ username: userParam.username }).exec();
+   
+    console.log(u == "");
+    if(u == ""){
+        throw 'Username "' + userParam.username + '" not found. Please login';
     }
+    let s = (await Posting.findOne({streetAddress:userParam.streetAddress})).exec();
+    if(s == null || s == ""){
+    let p = {
+        firstname = userParam.firstname,
+        lastname = userParam.lastname,
+        phonenumber = userParam.phonenumber,
+        emailID = userParam.emailID,
+        ownerContactDetails = [
+            {   firstName : firstname, 
+                lastName  : lastname,
+                phone     : phonenumber,
+                email     : emailID 
+            }],
+        description = userParam.description,
+        userId = u.userId,
+        streetAddress = userParam.streetAddress,
+        city = userParam.city,
+        country = userParam.country,
+        state = userParam.state,
+        zipCode = userParam.zipCode,
+        propertyType = userParam.propertyType,
+        price = userParam.price,
+        bedroom = userParam.bedroom,
+        bathrooms = userParam.bathrooms,
+        amenities = userParam.amenities,
+        price = userParam.price,
+        lastModifiedDate = Date.now
+    };
+    const posting = new Posting(p);
 
-    const user = new User(userParam);
-
-    // hash password
-    if (userParam.password) {
-        user.password = bcrypt.hashSync(userParam.password, 10);
+    // save posting
+    let post = await Posting.create(posting);
+    return post;
     }
-
-    // save user
-    let u = await user.save();
-    return u;
+    else throw "Same street address present in the database";
 }
 
 //For updating the user details
 const update = async (id, userParam) => {
 
-    const user = await User.findById({_id : id});
+    const posting = await Posting.findById({_id : id});
 
     // validate
-    if (!user) throw 'User not found';
-    console.log("here");
-    let u = await User.findOne({ username: userParam.username }).exec();
-    console.log(user);
-    console.log(userParam.username);
-    console.log(u);
-    if (user.username == userParam.username || u != null) {
-        throw 'Username "' + userParam.username + '" is already taken';
+    if (!posting) throw 'Posting not found';
+    console.log("here posting");
+    if (posting.streetAddress !=  userParam.streetAddress){
+        let pu = await User.find({ streetAddress: userParam.streetAddress }).exec();
+        console.log(pu);
+        if (pu.size > 1){
+            throw 'Duplicate stress address';
+        } 
     }
 
-    if (userParam.username){
-        user.username = userParam.username;
-    }
+        posting.firstname = userParam.firstname,
+        posting.lastname = userParam.lastname,
+        posting.phonenumber = userParam.phonenumber,
+        posting.emailID = userParam.emailID,
+        posting.ownerContactDetails = [
+            {   firstName : firstname, 
+                lastName  : lastname,
+                phone     : phonenumber,
+                email     : emailID 
+            }],
+        posting.description = userParam.description,
+        posting.streetAddress = userParam.streetAddress,
+        posting.city = userParam.city,
+        posting.country = userParam.country,
+        posting.state = userParam.state,
+        posting.zipCode = userParam.zipCode,
+        posting.propertyType = userParam.propertyType,
+        posting.price = userParam.price,
+        posting.bedroom = userParam.bedroom,
+        posting.bathrooms = userParam.bathrooms,
+        posting.amenities = userParam.amenities,
+        posting.price = userParam.price,
+        posting.lastModifiedDate = Date.now
 
-    // hash password if it was entered
-    if (userParam.password) {
-        user.password = bcrypt.hashSync(userParam.password, 10);
-    }
-    console.log(user);
-    let a = await user.save();
+    let a = await posting.save();
     return a;
 }
-//This service is to get all the Users.
+//This service is to get all the Posting.
 const search = async(filter) => {
-    const promise = await User.find(filter).exec();
+    const promise = await Posting.find(filter).exec();
     return promise;
 }
 
-//This service is to get the specific User.
-const getByUsername = async(body) => {
-    let username = body.username;
-    const promise = await User.findOne({username }).exec();
+//This service is to get the specific Posting.
+const getByUserID = async(body) => {
+    let userid = body.userid;
+    const promise = await Posting.find({userId : userid }).exec();
     return promise;
 }
 
-//This service is to delete the User.
+//This service is to delete the Posting.
 const remove = (id) => {
     const promise = User.remove({_id:id}).exec();
     return promise;
@@ -88,7 +125,7 @@ const remove = (id) => {
 
 export default {
     authenticate: authenticate,
-    getByUsername: getByUsername,
+    getByUserID: getByUserID,
     create: create,
     search :search,
     update: update,

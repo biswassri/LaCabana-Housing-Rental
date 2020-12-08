@@ -12,7 +12,7 @@ const authenticate =  (request,response,next) => {
 };
 
 //This creates the todo item in the database.
-const register = (request, response,next) => {
+const create = (request, response,next) => {
     console.log("Here in register");
     loginService.create(request.body)
         .then((user) => response.json(user))
@@ -20,14 +20,14 @@ const register = (request, response,next) => {
 }
 
 //This gets the specific item based on the id from the database.
-const getByUsername = (req, res, next) => {
+const getById = (req, res, next) => {
     loginService.getByUsername(req.body)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 //This gets all the users from the db
-const getAllUsers= (req,res,next) =>{
+const getAllPostings= (req,res,next) =>{
     loginService.search({})
         .then(user => user ? res.json(user) : "No users yet ")
         .catch(err => next(err));
@@ -58,7 +58,7 @@ const remove = (request,response,next) => {
 //export it to the modules which calls this module.
 export default {
     authenticate,
-    register,
+    create,
     getAllPostings,
     getById,
     update,

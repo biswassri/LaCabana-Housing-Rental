@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const postingSchema = new mongoose.Schema({
 
-    ownerContactDetails: {
+    ownerContactDetails: [{
         firstName: {
             type: String
         },
@@ -15,7 +15,7 @@ const postingSchema = new mongoose.Schema({
         email: {
             type: String
         }
-    },
+    }],
     description: {
         type: String
     },
