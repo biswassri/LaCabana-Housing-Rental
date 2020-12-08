@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from './components/nav';
 import Footer from './components/footer';
 import Slider from './components/slider';
+import Search from './components/search';
 
 
 class App extends Component {
