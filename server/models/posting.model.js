@@ -59,6 +59,10 @@ const postingSchema = new mongoose.Schema({
     lastModifiedDate: {
         type: Date,
         default: Date.now
+    },
+    available:{
+        type: Boolean,
+        default : true
     }
 },
     {
