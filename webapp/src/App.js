@@ -4,6 +4,7 @@ import Header from './components/nav';
 import Footer from './components/footer';
 import Slider from './components/slider';
 import Search from './components/search';
+import CityCards from './components/citycard';
 
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
         <div className="content-wrap">
           <Header /> 
           <Slider />
+          <CityCards/>
           <Footer />
         </div>
       </div>
