@@ -7,9 +7,9 @@ class CityCards extends Component {
         { name: 'Delhi', image: '/assets/citycard/Delhi.jpg'},
         { name: 'Dublin', image: '/assets/citycard/Dublin.jpg'},
         { name: 'London', image: '/assets/citycard/London.jpg'},
-        { name: 'LosAngeles', image: '/assets/citycard/LosAngeles.jpg'},
+        { name: 'Los Angeles', image: '/assets/citycard/LosAngeles.jpg'},
         { name: 'Mumbai', image: '/assets/citycard/Mumbai.jpg'},
-        { name: 'SanFransisco', image: '/assets/citycard/SanFransisco.jpg'},
+        { name: 'San Fransisco', image: '/assets/citycard/SanFransisco.jpg'},
         { name: 'Sydney', image: '/assets/citycard/Sydney.jpg'},
     ] }
     render() { 
