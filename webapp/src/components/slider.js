@@ -12,7 +12,7 @@ class Slider extends Component {
           <Carousel.Item interval={5000} className="image-slider-item">
             <img
               className="d-block w-100 h-100 image-container"
-              src="/assets/Friends.jpg"
+              src="/assets/slider/Friends.jpg"
               alt="First slide"
             />
             <Carousel.Caption>
@@ -22,7 +22,7 @@ class Slider extends Component {
           <Carousel.Item interval={5000} className="image-slider-item">
             <img
               className="d-block w-100 h-100 image-container"
-              src="/assets/LivingRoom.jpg"
+              src="/assets/slider/LivingRoom.jpg"
               alt="Second slide"
             />
             <Carousel.Caption>
@@ -32,7 +32,7 @@ class Slider extends Component {
           <Carousel.Item interval={5000} className="image-slider-item">
             <img
               className="d-block w-100 h-100 image-container"
-              src="/assets/Skyline.jpg"
+              src="/assets/slider/Skyline.jpg"
               alt="Third slide"
             />
             <Carousel.Caption>
