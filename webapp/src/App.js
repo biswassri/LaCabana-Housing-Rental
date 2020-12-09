@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Header from './components/nav';
 import Footer from './components/footer';
 import Slider from './components/slider';
-import Search from './components/search';
 import CityCards from './components/citycard';
 import VideoContainer from './components/video-container';
 
