@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Header from './components/nav';
 import Footer from './components/footer';
 import Slider from './components/slider';
+import CityCards from './components/citycard';
+import VideoContainer from './components/video-container';
 
 
 class App extends Component {
@@ -13,6 +15,8 @@ class App extends Component {
         <div className="content-wrap">
           <Header /> 
           <Slider />
+          <CityCards/>
+          <VideoContainer />
           <Footer />
         </div>
       </div>
