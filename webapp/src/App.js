@@ -5,6 +5,7 @@ import Footer from './components/footer';
 import Slider from './components/slider';
 import Search from './components/search';
 import CityCards from './components/citycard';
+import VideoContainer from './components/video-container';
 
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
           <Header /> 
           <Slider />
           <CityCards/>
+          <VideoContainer />
           <Footer />
         </div>
       </div>
