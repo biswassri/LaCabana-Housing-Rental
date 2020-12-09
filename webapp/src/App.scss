@@ -27,8 +27,111 @@
 
 .image-slider{
     height: 80vh;
+    z-index: 0;
 }
 
 .image-container {
     object-fit: cover;
 }
+
+.search-bar {
+    position: absolute;
+    z-index: 1;
+    top: 200px;
+    width:100%;
+}
+
+.color-white {
+    color: white;
+}
+
+.flip-box {
+    transform-style: preserve-3d;
+    perspective: 10000px;
+    cursor: pointer;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.flip-box-front, .flip-box-back {
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    height: 180px;
+    width: 300px;
+    transition: transform 0.7s cubic-bezier(.4,.2,.2,1);
+    backface-visibility: hidden;
+
+}
+
+.flip-box-front {
+    transform : rotateY(0deg);
+    transform-style: preserve-3d;
+}
+
+.flip-box:hover .flip-box-front {
+    transform : rotateY(-180deg);
+    transform-style: preserve-3d;
+}
+
+.flip-box:hover .flip-box-back {
+    transform : rotateY(0deg);
+    transform-style: preserve-3d;
+}
+
+.flip-box-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform : rotateY(180deg);
+    transform-style: preserve-3d;
+}
+
+.flip-box .inner {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 60px;
+    outline: 1px solid transparent;
+    perspective: inherit;
+    z-index: 2;
+    transform: translateY(-50%)translateZ(60px) scale(.94);
+    top:50%;
+}
+
+.img-card {
+    background-color: lightgrey;
+}
+
+.flip-box-button {
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 5px 5px;
+    text-transform: uppercase;
+}
+
+.video-background {
+    height: 100vh;
+    width:100%;
+    opacity: 0.7;
+}
+
+.player-wrapper {
+    display: flex;
+    height: 100%;
+    padding: 3rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+
+.react-player {
+    position: relative;
+  }
