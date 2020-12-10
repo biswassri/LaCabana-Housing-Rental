@@ -8,8 +8,8 @@ import VideoContainer from './components/video-container';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import registerUser from './components/login-container/Register';
 import Home from './components/Home';
-
-
+import TenantView from './components/Tenants';
+import RoomDetails from './components/DetailView';
 
 
 class App extends Component {
@@ -18,12 +18,14 @@ class App extends Component {
     return (
       <div className="page-container">
         <div className="content-wrap">
-          <Router>
+          {/* <Router>
             <Switch>
               <Route path='/' component={registerUser} />
               <Route path='/Home' component={Home} />
             </Switch>
-          </Router>
+          </Router> */}
+          {/* <RoomDetails /> */}
+          <Home />
         </div>
       </div>
 

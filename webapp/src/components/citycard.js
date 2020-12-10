@@ -18,8 +18,8 @@ class CityCards extends Component {
         <div className="container">
             <div className="row">
                 {
-                    cities.map( data => {
-                         return <div className="box-item col-md-4">
+                    cities.map( (data,key) => {
+                         return <div key={key} className="box-item col-md-4">
                             <div className="flip-box">
                                 <div className="flip-box-front text-center img-card" style={{backgroundImage: `url(${data.image})`}}>
                                     <div className="inner color-white">

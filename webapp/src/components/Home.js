@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+
 import Header from './nav';
 import Footer from './footer';
 import Slider from './slider';
@@ -7,6 +9,9 @@ import VideoContainer from './video-container';
 
 class Home extends Component {
   state = {}
+  componentDidMount(){
+    console.log("USER_STORE::::", this.props.user)
+  }
   render() {
     return (
         <div className="page-container">
@@ -18,11 +23,11 @@ class Home extends Component {
             <Footer />
           </div>
         </div>
-
-      
-
     );
   }
 }
 
-export default Home;
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+export default connect( mapStateToProps)(Home);

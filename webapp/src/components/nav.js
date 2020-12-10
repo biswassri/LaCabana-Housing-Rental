@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 
 import { MDBRow, MDBCol, MDBIcon, MDBNavLink } from "mdbreact";
@@ -23,7 +24,7 @@ class Header extends Component {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <NavItem className="navbar-text">Hi, User</NavItem>
+            <NavItem className="navbar-text">Hi, {this.props.user.username}</NavItem>
             <Nav.Link href="#home">Logout</Nav.Link>
             
             <Nav.Link>Help</Nav.Link>
@@ -37,4 +38,9 @@ class Header extends Component {
   }
 }
 
-export default Header;
+//export default Header;
+
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+export default connect( mapStateToProps)(Header);

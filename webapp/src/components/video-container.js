@@ -16,8 +16,8 @@ class VideoContainer extends Component {
             width="70%"
             height="60%"
           />
-          <button class="btn btn-secondary" type="button">
-                        + ADD LISTINGS
+          <button className="btn btn-secondary" type="button">
+                        READ MORE
           </button>
         </div>
       </div>
