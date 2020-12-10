@@ -27,30 +27,30 @@ const create = async (userParam) => {
     let s = (await Posting.findOne({streetAddress:userParam.streetAddress})).exec();
     if(s == null || s == ""){
     let p = {
-        firstname = userParam.firstname,
-        lastname = userParam.lastname,
-        phonenumber = userParam.phonenumber,
-        emailID = userParam.emailID,
-        ownerContactDetails = [
+        firstname : userParam.firstname,
+        lastname : userParam.lastname,
+        phonenumber : userParam.phonenumber,
+        emailID : userParam.emailID,
+        ownerContactDetails : [
             {   firstName : firstname, 
                 lastName  : lastname,
                 phone     : phonenumber,
                 email     : emailID 
             }],
-        description = userParam.description,
-        userId = u.userId,
-        streetAddress = userParam.streetAddress,
-        city = userParam.city,
-        country = userParam.country,
-        state = userParam.state,
-        zipCode = userParam.zipCode,
-        propertyType = userParam.propertyType,
-        price = userParam.price,
-        bedroom = userParam.bedroom,
-        bathrooms = userParam.bathrooms,
-        amenities = userParam.amenities,
-        price = userParam.price,
-        lastModifiedDate = Date.now
+        description : userParam.description,
+        userId : u.userId,
+        streetAddress : userParam.streetAddress,
+        city : userParam.city,
+        country : userParam.country,
+        state : userParam.state,
+        zipCode : userParam.zipCode,
+        propertyType : userParam.propertyType,
+        price : userParam.price,
+        bedroom : userParam.bedroom,
+        bathrooms : userParam.bathrooms,
+        amenities : userParam.amenities,
+        price : userParam.price,
+        lastModifiedDate : Date.now
     };
     const posting = new Posting(p);
 
