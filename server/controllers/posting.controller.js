@@ -14,22 +14,23 @@ const authenticate =  (request,response,next) => {
 //This creates the todo item in the database.
 const create = (request, response,next) => {
     console.log("Here in register");
+    console.log(request.bodyy);
     loginService.create(request.body)
-        .then((user) => response.json(user))
+        .then((posting) => response.json(posting))
         .catch(err => next(err));
 }
 
 //This gets the specific item based on the id from the database.
-const getById = (req, res, next) => {
-    loginService.getByUsername(req.body)
-        .then(user => user ? res.json(user) : res.sendStatus(404))
+const getByUserID = (req, res, next) => {
+    loginService.getByUserID(req.body)
+        .then(posting => posting ? res.json(posting) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 //This gets all the users from the db
 const getAllPostings= (req,res,next) =>{
-    loginService.search({})
-        .then(user => user ? res.json(user) : "No users yet ")
+    loginService.getAll()
+        .then(posting => posting ? res.json(posting) : "No postings yet ")
         .catch(err => next(err));
 }
 
@@ -37,7 +38,7 @@ const getAllPostings= (req,res,next) =>{
 const update = (request,response,next) => {
     const id = request.params.id;
     loginService.update(id, request.body)
-    .then((user) => response.json(user))
+    .then((posting) => response.json(posting))
     .catch(err => next(err)); 
 };
 
@@ -55,12 +56,19 @@ const remove = (request,response,next) => {
     .catch(err => next(err));
 };
 
+//This gets the specific item based on the PostingID from the database.
+const getByPostingID = (req, res, next) => {
+    loginService.getByPostingID(req.body)
+        .then(posting => posting ? res.json(posting) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 //export it to the modules which calls this module.
 export default {
     authenticate,
     create,
     getAllPostings,
-    getById,
+    getByPostingID,
     update,
     remove
 }

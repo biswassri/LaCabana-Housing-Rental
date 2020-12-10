@@ -105,21 +105,30 @@ const update = async (id, userParam) => {
     return a;
 }
 //This service is to get all the Posting.
-const search = async(filter) => {
-    const promise = await Posting.find(filter).exec();
+const getAll = async() => {
+    const promise = await Posting.find({}).exec();
     return promise;
 }
 
-//This service is to get the specific Posting.
+//This service is to get the posting by user.
 const getByUserID = async(body) => {
     let userid = body.userid;
     const promise = await Posting.find({userId : userid }).exec();
     return promise;
 }
 
+const getbyCity = async(body) => {
+    let city = body.city;
+    const promise = await Posting.find({city : city }).exec();
+    return promise;
+}
+const getByPostingID = async(id) => {
+    const promise = await Posting.findById(id).exec();
+    return promise;
+}
 //This service is to delete the Posting.
 const remove = (id) => {
-    const promise = User.remove({_id:id}).exec();
+    const promise = Posting.remove({_id:id}).exec();
     return promise;
 }
 
@@ -127,7 +136,9 @@ export default {
     authenticate: authenticate,
     getByUserID: getByUserID,
     create: create,
-    search :search,
+    getAll :getAll,
+    getbyCity : getbyCity,
+    getByPostingID : getByPostingID,
     update: update,
     remove: remove
 }
