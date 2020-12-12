@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     firstname: {
@@ -38,7 +39,7 @@ const userSchema = new mongoose.Schema({
         type: Number, 
         default: 0 
     },
-    rentals: [{ 
+    postings: [{ 
         type: Schema.Types.ObjectId, 
         ref: "Posting" 
     }],
@@ -56,5 +57,21 @@ userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 userSchema.set('toJSON', { virtuals: true });
+
+userSchema.methods.hasSamePassword = function(requestedPassword) {
+    return bcrypt.compareSync(requestedPassword, this.password);
+  };
+  
+  userSchema.pre("save", function(next) {
+    const user = this;
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(user.password, salt, function(err, hash) {
+        user.password = hash;
+        next();
+      });
+    });
+  });
+
+  
 const model = mongoose.model('User', userSchema);
 export default model;

@@ -36,10 +36,6 @@ const roomBookingSchema = new Schema({
     type: Schema.Types.ObjectId, 
     ref: "Payment" 
   },
-  review: { 
-    type: Schema.Types.ObjectId, 
-    ref: "Review" 
-  },
   status: { 
     type: String, 
     default: "pending" 
