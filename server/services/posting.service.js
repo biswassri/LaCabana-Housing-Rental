@@ -12,7 +12,7 @@ const create = async (user, req) => {
       if (err) {
         throw err;
       }
-      await User.updateOne({ _id: user.id }, { $push: { postings: posting } }, () => {});
+      User.updateOne({ _id: user.id }, { $push: { postings: posting } });
       return posting;
     });
 }
@@ -23,7 +23,7 @@ const update = async (id, userParam, response) => {
     console.log(userParam);
     console.log(response);
     const user = response.locals.user;
-    await Posting.findById(id)
+    Posting.findById(id)
     .populate("user", "_id")
     .exec((err, post) => {
       if (err) {
@@ -45,7 +45,7 @@ const update = async (id, userParam, response) => {
 //This service is to get the posting by user.
 const managePostings = async(req,res) => {
     const user = res.locals.user;
-    await Posting.where({user})
+     Posting.where({user})
       .populate("bookings")
       .exec((err, result) =>{
           if (err){
@@ -100,7 +100,7 @@ const getByPostingID = async(req) => {
 const getbyCity = (req) => {
     const city = req.query.city;
     const query = city ? { city: city.toLowerCase() } : {};
-    await Posting.find(query)
+    Posting.find(query)
       .select("-bookings")
       .exec((err, found) => {
         if (err) {

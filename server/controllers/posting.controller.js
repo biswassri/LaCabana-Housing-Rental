@@ -4,7 +4,7 @@ import postingService from '../services/login.service';
 //This gets all the items of todo list from the database.
 const secret =  (request,response,next) => {
     response.json({secret:true});
-};
+}
 
 //This creates the todo item in the database.
 const create = (request, response,next) => {
@@ -55,7 +55,7 @@ const update = (request,response,next) => {
         res.json(posting);
     })
     .catch(err => res.status(422).send({ errors: errorHandler(err.errors) })); 
-};
+}
 
 
 //This gets the specific item based on the id from the database and deletes it.
@@ -92,7 +92,7 @@ const remove = (request,response,next) => {
             });
         })
     .catch(err => res.status(422).send({ errors: errorHandler(err.errors) }));
-};
+}
 
 
 //This gets the specific item based on the PostingID from the database.

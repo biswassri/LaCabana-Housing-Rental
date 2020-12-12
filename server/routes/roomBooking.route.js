@@ -1,10 +1,10 @@
-const express = require("express");
-const roomBookingController = require("../controllers/roomBooking.controller");
-const LoginController = require("../controllers/login.controller");
+import express from "express";
+import roomBookingController from "../controllers/roomBooking.controller";
+import LoginController from "../controllers/login.controller";
 
-const router = express.Router();
+const roomBookingRouter = express.Router();
 
-router.post("", userController.authMiddleware, roomBookingController.createBooking);
-router.get("/manage", userController.authMiddleware, roomBookingController.getUserBookings);
+roomBookingRouter.route("").post(LoginController.authMiddleware, roomBookingController.createBooking);
+roomBookingRouter.route("/manage").get(LoginController.authMiddleware, roomBookingController.getUserBookings);
 
-export default router;
+export default roomBookingRouter;

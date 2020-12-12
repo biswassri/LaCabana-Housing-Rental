@@ -54,7 +54,7 @@ const register = async (userParam) => {
     }
 
     const user = new User({ username, email, password });
-    await user.save(err => {
+    user.save(err => {
       if (err) {
         return "NA";
       }
@@ -80,13 +80,7 @@ const update = async (req, res) => {
       if (err) {
         throw err;
        }
-      if (userData.password) {
-        //dont't update password this way
-        const { password, ...updateData } = userData;
-        userData = updateData;
-      }
-
-      await User.updateOne({ _id: foundUser._id }, { $set: { ...userData } }, err => {
+        User.updateOne({ _id: foundUser._id }, { $set: {userData } }, err => {
         if (err) {
           throw err;
         }

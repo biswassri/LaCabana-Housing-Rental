@@ -25,15 +25,15 @@ const roomBookingSchema = new Schema({
     default: Date.now 
   },
   user: { 
-    type: Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId, 
     ref: "User" 
   },
-  rental: { 
-    type: Schema.Types.ObjectId, 
-    ref: "Rental" 
+  posting: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Posting" 
   },
   payment: { 
-    type: Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId, 
     ref: "Payment" 
   },
   status: { 
@@ -45,9 +45,9 @@ const roomBookingSchema = new Schema({
       versionKey: false
 
   });
-postingSchema.virtual('id').get(function () {
+  roomBookingSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
-postingSchema.set('toJSON', { virtuals: true });
+roomBookingSchema.set('toJSON', { virtuals: true });
 const model = mongoose.model('RoomBooking', roomBookingSchema);
 export default model;

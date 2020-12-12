@@ -37,11 +37,11 @@ const postingSchema = new mongoose.Schema({
         default: Date.now 
     },
     user: { 
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: "User" 
     },
     bookings: [{ 
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: "Booking" }]
 
 },
@@ -49,6 +49,7 @@ const postingSchema = new mongoose.Schema({
         versionKey: false
 
     });
+    
 postingSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });

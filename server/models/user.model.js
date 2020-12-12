@@ -40,11 +40,11 @@ const userSchema = new mongoose.Schema({
         default: 0 
     },
     postings: [{ 
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: "Posting" 
     }],
     bookings: [{ 
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: "Booking" 
     }]
   

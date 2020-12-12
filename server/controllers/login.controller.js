@@ -2,7 +2,7 @@
 import { response } from 'express';
 import loginService from '../services/login.service';
 import errorHandler from '../handlers/errorhandler';
-import User from "../models/user";
+import User from "../models/user.model";
 import config from "../config";
 import jwt from "jsonwebtoken";
 
