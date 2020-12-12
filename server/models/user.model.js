@@ -1,41 +1,73 @@
 import mongoose from 'mongoose';
 
-//Model schema for the Todo table
-const User = new mongoose.Schema({
-        username: {
-            type : String,
-            required: "Title is required"
-        },
-        password: {
-            type : String
-        },
-        status:{
-            type : String,
-            default: "Pending approval"
-        },
-        lastModifiedDate: {
-            type: Date,
-            default: Date.now
-        },
-        createdDate: {
-            type: Date,
-            default: Date.now
-        }
+const userSchema = new mongoose.Schema({
+    firstname: {
+        type: String,
+        required: "Firstname is a required property."
     },
+    lastname: {
+        type: String,
+        required: "Lastname is a required property."
+    },
+    username: {
+        type: String,
+        required: "Username is a required property."
+    },
+    password: {
+        type: String,
+        required: "Password is a required property."
+    },
+    address: {
+        type: String,
+        required: "Address is a required property."
+    },
+    phoneNumber: {
+        type: Number,
+        required: "Phone number is a required property."
+    },
+    emailId: {
+        type: String,
+        required: "Email is a required property."
+    },
+    gender: {
+        type: String
+    },
+    maritalStatus: {
+        type: String,
+        default: "N/A"
+    },
+    incomeRange: {
+        type: Number
+    },
+    pet: {
+        type: Boolean
+    },
+    houseRented: {
+        type: Object
+    },
+    postings: {
+        type: Object
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now
+    },
+    lastModifiedDate: {
+        type: Date,
+        default: Date.now
+    },
+    status:{
+        type : String,
+        default: "Pending approval"
+    },
+},
     {
         versionKey: false
-    }
-);
 
-//Used for the Object Item id which acts as a primary key
-User.virtual('id').get(function() {
+    });
+userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
-
-//For conversion to JSON
-User.set('toJSON', {virtuals: true});
-
-//Model name
-const user = mongoose.model('users', User);
-
-export default user;
+userSchema.set('toJSON', { virtuals: true });
+const model = mongoose.model('user', userSchema);
+export default model;

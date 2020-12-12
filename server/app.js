@@ -6,8 +6,7 @@ import mongoose, { mongo } from 'mongoose';
 import routes from './routes';
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-
-const errorHandler = require('./handlers/errorhandler');
+import errorHandler from './handlers/errorhandler';
 
 const MONGODV_URI = 'mongodb+srv://webdesign:webdesign1@lacabana.echsh.mongodb.net/lacabana?retryWrites=true&w=majority';
 //This is used for a persisted MongoDB connection by using Mongoose ODM framework.
