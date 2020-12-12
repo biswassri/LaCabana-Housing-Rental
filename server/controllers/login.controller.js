@@ -55,10 +55,57 @@ const remove = (request,response,next) => {
     .catch(err => next(err));
 };
 
+const authMiddleware = (req, res, next) => {
+    const token = req.headers.authorization;
+    if (token) {
+      jwt.verify(token.split(" ")[1], config.SECRET, function(err, user) {
+        if (err) {
+          return res.status(401).send({
+            errors: [
+              {
+                title: "Not authenticated",
+                detail: "Your session has been expired!"
+              }
+            ]
+          });
+        }
+  
+        User.findById(user.userId, (err, user) => {
+          if (err) {
+            return notAuthorized(res);
+          }
+          if (user) {
+            res.locals.user = user;
+            next();
+          } else {
+            return res.status(422).send({
+              errors: [
+                {
+                  title: "Not authorized",
+                  detail: "You need to login to get access!"
+                }
+              ]
+            });
+          }
+        });
+      });
+    } else {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "Not authorized",
+            detail: "You need to login to get access!"
+          }
+        ]
+      });
+    }
+  };
+  
 //export it to the modules which calls this module.
 export default {
     authenticate,
     register,
+    authMiddleware,
     getAllUsers,
     getByUsername,
     update,

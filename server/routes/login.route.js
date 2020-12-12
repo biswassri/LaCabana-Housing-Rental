@@ -9,19 +9,15 @@ const loginRouter = express.Router();
  */
 //router.route('/').get(LoginController.getAllUsers);
 loginRouter.route('/register').post(LoginController.register);
-loginRouter.route('/authenticate').post(LoginController.authenticate);
-loginRouter.route('/getAllUsers').get(LoginController.getAllUsers);
+loginRouter.route('/auth').post(LoginController.authenticate);
+loginRouter.route('/:id').get(LoginController.authMiddleware,LoginController.getUser);
 /**
  * Retrieve - GET /login/${id}
  * Update - PUT /login/${id}
  * Delete - DELETE /login/${id}
  */
-loginRouter.route('/user/:id')
-    .get(LoginController.getByUsername)
-    .put(LoginController.update)
-    .delete(LoginController.remove);
-
-loginRouter.route('/user/self').get(LoginController.getByUsername);
+loginRouter.route('/:id')
+    .patch(LoginController.authMiddleware,LoginController.update);
 
 //export loginRouter
 export default loginRouter;

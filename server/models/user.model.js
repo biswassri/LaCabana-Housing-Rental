@@ -17,49 +17,36 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: "Password is a required property."
     },
-    address: {
+    location: {
         type: String,
         required: "Address is a required property."
     },
-    phoneNumber: {
+    phone: {
         type: Number,
         required: "Phone number is a required property."
     },
     emailId: {
         type: String,
+        unique: true,
+        lowercase: true,
         required: "Email is a required property."
     },
     gender: {
         type: String
     },
-    maritalStatus: {
-        type: String,
-        default: "N/A"
+    balance: { 
+        type: Number, 
+        default: 0 
     },
-    incomeRange: {
-        type: Number
-    },
-    pet: {
-        type: Boolean
-    },
-    houseRented: {
-        type: Object
-    },
-    postings: {
-        type: Object
-    },
-    createdDate: {
-        type: Date,
-        default: Date.now
-    },
-    lastModifiedDate: {
-        type: Date,
-        default: Date.now
-    },
-    status:{
-        type : String,
-        default: "Pending approval"
-    },
+    rentals: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: "Posting" 
+    }],
+    bookings: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: "Booking" 
+    }]
+  
 },
     {
         versionKey: false
@@ -69,5 +56,5 @@ userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 userSchema.set('toJSON', { virtuals: true });
-const model = mongoose.model('user', userSchema);
+const model = mongoose.model('User', userSchema);
 export default model;
