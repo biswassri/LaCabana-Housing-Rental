@@ -1,15 +1,12 @@
 import './dist/App.css';
 import React, { Component } from 'react';
-import Header from './components/nav';
-import Footer from './components/footer';
-import Slider from './components/slider';
-import CityCards from './components/citycard';
-import VideoContainer from './components/video-container';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import registerUser from './components/login-container/Register';
+import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+
+import Register from './components/login-container/Register';
 import Home from './components/Home';
 import TenantView from './components/Tenants';
 import RoomDetails from './components/DetailView';
+import Login from './components/login-container/Login';
 
 
 class App extends Component {
@@ -18,19 +15,22 @@ class App extends Component {
     return (
       <div className="page-container">
         <div className="content-wrap">
-          {/* <Router>
+          <Router>
             <Switch>
-              <Route path='/' component={registerUser} />
-              <Route path='/Home' component={Home} />
+              <Route exact path='/' component={Home} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/room' component={RoomDetails} />
+
+              {/* Add additional routes above*/}
+              {/* Handled routes which aren't registered and direct it to home*/}
+              <Route path="*" >
+                <Redirect to="/" />
+              </Route>
             </Switch>
-          </Router> */}
-          {/* <RoomDetails /> */}
-          <Home />
+          </Router>
         </div>
       </div>
-
-
-
     );
   }
 }
