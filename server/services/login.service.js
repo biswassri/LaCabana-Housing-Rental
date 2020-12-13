@@ -39,7 +39,25 @@ const findOne = async (email) =>{
     throw Error('Error while geting user');
   }
 }
+
+const create = async (username, email, password) =>{
+  return new User({username, email, password});
+}
+
+const findID = async (id) =>{
+  console.log(id);
+  try{
+    var user = await User.findById(id).exec();
+    console.log(user);
+    return user;
+  }
+  catch(e){
+    throw Error('Error while geting user');
+  }
+}
 export default {
+  findID : findID,
+  create : create,
     getUser :getUser,
     getUser1 : getUser1,
     findOne : findOne

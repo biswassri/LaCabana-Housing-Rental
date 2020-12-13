@@ -1,5 +1,5 @@
 //THis is for error handling 
-const errorHandler = function (errors) {
+const errorHandler = (errors) => {
     let normalizedErrors = [];
     const entries = Object.entries(errors);
     for (const [key, value] of entries) {
@@ -7,6 +7,6 @@ const errorHandler = function (errors) {
     }
     return normalizedErrors;
   
-}
+};
 
-module.exports = errorHandler;
+export default errorHandler;

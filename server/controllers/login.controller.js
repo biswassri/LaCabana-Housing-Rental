@@ -1,18 +1,20 @@
-import User from "../models/user.model";
+import User from '../models/user.model.js';
 import { errorHandler } from "../handlers/errorhandler";
 import jwt from "jsonwebtoken";
 import config from "../config";
 import LoginService from '../services/login.service'
 import { async } from "regenerator-runtime";
 
-const getUser = (req, res) => {
+
+const getUser = async(req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
-
+  console.log(user);
   if (reqUserId === user.id) {
     //display all
     try{
-      var users = LoginService.getUser(reqUserId);
+      var users =  await LoginService.getUser(reqUserId);
+      console.log(users);
       return res.status(200).json(users);
     }
     catch(e){
@@ -24,7 +26,7 @@ const getUser = (req, res) => {
   } else {
     //restrict some data
     try{
-      var users = LoginService.getUser1(reqUserId);
+      var users = await LoginService.getUser1(reqUserId);
       return res.status(200).json(users);
     }
     catch(e){
@@ -35,7 +37,7 @@ const getUser = (req, res) => {
   }
 };
 
-const update = (req, res) => {
+const update = async(req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
   let userData = req.body;
@@ -53,16 +55,20 @@ const update = (req, res) => {
     });
   }
 
-  User.findById(reqUserId)
-    .select("-password -rentals -bookings -balance")
-    .exec((err, foundUser) => {
+  await LoginService.getUser1(reqUserId).then((err, foundUser) => {
       if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        return res.status(422).send({ errors: errorHandler(err.errors) });
       }
 
-      User.updateOne({ _id: foundUser._id }, { $set: { userData } }, err => {
+      User.updateOne({ _id: foundUser._id }, { $set: { 
+        firstname : userData.firstname,
+        lastname : userData.lastname,
+        phone: userData.phone,
+        email: userData.email,
+        location : userData.location
+      } }, err => {
         if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+          return res.status(422).send({ errors: errorHandler(err.errors) });
         }
         return res.json(foundUser);
       });
@@ -78,7 +84,7 @@ const authenticate = async (req, res) => {
     });
   }
 
-  var user = await User.findOne({ email });
+  var user = await LoginService.findOne(email);
     console.log(user + " " + email);
     if (!user) {
       return res.status(422).send({
@@ -90,6 +96,7 @@ const authenticate = async (req, res) => {
         {
           userId: user.id,
           username: user.username
+
         },
         config.SECRET,
         { expiresIn: "1h" }
@@ -142,10 +149,10 @@ const register = async (req, res) => {
               .send({ errors: errorHandler(e.message) });
   }
 
-    const user = new User({ username, email, password });
+    const user = await LoginService.create(username, email, password);
     user.save(err => {
       if (err) {
-        return res.status(401).send({ errors: normalizeErrors(err.errors) });
+        return res.status(401).send({ errors: errorHandler(err.errors) });
       }
 
       return res.json({ registered: true });
@@ -154,7 +161,6 @@ const register = async (req, res) => {
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
-  console.log(token);
   if (token) {
     jwt.verify(token.split(" ")[1], config.SECRET, function(err, user) {
       if (err) {
