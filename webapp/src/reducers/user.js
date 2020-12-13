@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     firstname: "",
     lastname: "",
     location: "",
-    phone: ""
+    phone: "",
+    isLogin: false,
 };
 
 export default (state = INITIAL_STATE, action) => {

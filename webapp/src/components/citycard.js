@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+
 
 class CityCards extends Component {
     state = { cities:[
@@ -29,7 +31,7 @@ class CityCards extends Component {
                                 <div className="flip-box-back text-center img-card" style={{backgroundImage: `url(${data.image})`}}>
                                     <div className="inner color-white">
                                         <h3 className="flip-box-header">{ data.name }</h3>
-                                        <button className="flip-box-button">Search</button>
+                                        <Link to={`/room/${data.name}`} href={`/room/${data.name}`}><button className="flip-box-button">Search</button></Link>
                                     </div>
                                 </div>
                             </div>
