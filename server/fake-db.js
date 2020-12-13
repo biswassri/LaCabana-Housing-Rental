@@ -1,8 +1,8 @@
-const Posting = require("./models/posting.model");
-const User = require("./models/user.model");
-const Booking = require("./models/roombooking.model");
-const Payment = require("./models/payment.model");
-const fakeDbData = require("../data.json");
+import Posting from "./models/posting.model";
+import User from "./models/user.model";
+import Booking from "./models/roombooking.model";
+import Payment from "./models/payment.model";
+import fakeDbData from "../data.json";
 
 class FakeDb {
   constructor() {
@@ -10,26 +10,25 @@ class FakeDb {
     this.users = fakeDbData.users;
   }
   async cleanDb() {
-    await User.remove();
-    await Posting.remove();
-    await Booking.remove();
-    await Payment.remove();
+    await User.remove({}).exec();
+    await Posting.remove({}).exec();
+    await Booking.remove({}).exec();
+    await Payment.remove({}).exec();
   }
   async pushDataToDb() {
-    await this.cleanDb();
+     await this.cleanDb();
     const user = new User(this.users[0]);
-    const user2 = new User(this.users[1]);
     this.postings.forEach(posting => {
       const newPosting = new Posting(posting);
+      console.log(posting);
       newPosting.user = user;
-      user.postings.push(posting);
+      user.postings.push(newPosting);
       newPosting.save();
     });
     user.save();
-    user2.save();
   }
   // seedDb() {
   //   this.pushRentalsToDb();
   // }
 }
-module.exports = FakeDb;
+export default FakeDb;

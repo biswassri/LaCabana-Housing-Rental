@@ -1,5 +1,5 @@
 //THis is for error handling 
-const errorHandler = function (err) {
+const errorHandler = function (errors) {
     let normalizedErrors = [];
     const entries = Object.entries(errors);
     for (const [key, value] of entries) {

@@ -96,11 +96,11 @@ const remove = (request,response,next) => {
 
 
 //This gets the specific item based on the PostingID from the database.
-const getbyCity = (req, res, next) => {
+const getbyCity = (req, res) => {
     postingService.getbyCity(req)
         .then(posting => posting ? res.json(posting) : res.sendStatus(422))
         .catch(err => res.status(422).send({ errors: errorHandler(err.errors) }));
-}
+};
 
 //export it to the modules which calls this module.
 export default {

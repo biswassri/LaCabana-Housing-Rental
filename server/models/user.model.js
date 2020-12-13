@@ -4,11 +4,9 @@ import bcrypt from 'bcrypt';
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
-        required: "Firstname is a required property."
     },
     lastname: {
         type: String,
-        required: "Lastname is a required property."
     },
     username: {
         type: String,
@@ -20,15 +18,12 @@ const userSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        required: "Address is a required property."
     },
     phone: {
         type: Number,
-        required: "Phone number is a required property."
     },
-    emailId: {
+    email: {
         type: String,
-        unique: true,
         lowercase: true,
         required: "Email is a required property."
     },
