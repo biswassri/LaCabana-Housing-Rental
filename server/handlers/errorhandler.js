@@ -7,6 +7,6 @@ const errorHandler = (errors) => {
     }
     return normalizedErrors;
   
-};
+}
 
 export default errorHandler;

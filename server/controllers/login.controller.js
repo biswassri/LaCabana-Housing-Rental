@@ -1,5 +1,5 @@
 import User from '../models/user.model.js';
-import { errorHandler } from "../handlers/errorhandler";
+import errorHandler from "../handlers/errorhandler";
 import jwt from "jsonwebtoken";
 import config from "../config";
 import LoginService from '../services/login.service'
@@ -7,6 +7,7 @@ import { async } from "regenerator-runtime";
 
 
 const getUser = async(req, res) => {
+  console.log("Inside get user");
   const reqUserId = req.params.id;
   const user = res.locals.user;
   console.log(user);
@@ -37,7 +38,7 @@ const getUser = async(req, res) => {
   }
 };
 
-const update = async(req, res) => {
+const update = async (req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
   let userData = req.body;
@@ -55,12 +56,10 @@ const update = async(req, res) => {
     });
   }
 
-  await LoginService.getUser1(reqUserId).then((err, foundUser) => {
-      if (err) {
-        return res.status(422).send({ errors: errorHandler(err.errors) });
-      }
-
-      User.updateOne({ _id: foundUser._id }, { $set: { 
+  var u =  await LoginService.getUser(reqUserId)
+  console.log(u);
+  if (u){
+      User.updateOne({ _id: u._id }, { $set: { 
         firstname : userData.firstname,
         lastname : userData.lastname,
         phone: userData.phone,
@@ -70,9 +69,20 @@ const update = async(req, res) => {
         if (err) {
           return res.status(422).send({ errors: errorHandler(err.errors) });
         }
-        return res.json(foundUser);
+        return res.json(u);
       });
+  }
+  else{
+    return res.status(422).send({
+      errors: [
+        {
+          title: "not found",
+          detail: "user not found"
+        }
+      ]
     });
+
+  }
 };
 
 const authenticate = async (req, res) => {
@@ -96,6 +106,7 @@ const authenticate = async (req, res) => {
         {
           userId: user.id,
           username: user.username
+
 
         },
         config.SECRET,
