@@ -59,7 +59,7 @@ const update = async (req, res) => {
   var u =  await LoginService.getUser(reqUserId)
   console.log(u);
   if (u){
-      User.updateOne({ _id: u._id }, { $set: { 
+      await User.updateOne({ _id: u._id }, { $set: { 
         firstname : userData.firstname,
         lastname : userData.lastname,
         phone: userData.phone,
