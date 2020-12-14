@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from '../app';
+import app from '../index';
 import debugLib from 'debug';
 import http from 'http';
 const debug = debugLib('todoDB')
@@ -13,7 +13,7 @@ const debug = debugLib('todoDB')
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '5000');
+var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**

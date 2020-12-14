@@ -1,66 +1,226 @@
+import User from '../models/user.model.js';
+import errorHandler from "../handlers/errorhandler";
+import jwt from "jsonwebtoken";
+import config from "../config";
+import LoginService from '../services/login.service'
+import { async } from "regenerator-runtime";
 
-import { response } from 'express';
-import loginService from '../services/login.service';
 
-
-
-//This gets all the items of todo list from the database.
-const authenticate =  (request,response,next) => {
-    loginService.authenticate(request.body)
-        .then(user => user ? response.json(user) : response.status(400).json({message: 'Username or password is incorrect'}))
-        .catch(err => next(err));
+const getUser = async(req, res) => {
+  console.log("Inside get user");
+  const reqUserId = req.params.id;
+  const user = res.locals.user;
+  console.log(user);
+  if (reqUserId === user.id) {
+    //display all
+    try{
+      var users =  await LoginService.getUser(reqUserId);
+      console.log(users);
+      return res.status(200).json(users);
+    }
+    catch(e){
+      return res
+              .status(422)
+              .send({ errors: errorHandler(e.message) });
+    }
+    
+  } else {
+    //restrict some data
+    try{
+      var users = await LoginService.getUser1(reqUserId);
+      return res.status(200).json(users);
+    }
+    catch(e){
+      return res
+              .status(422)
+              .send({ errors: errorHandler(e.message) });
+    }
+  }
 };
 
-//This creates the todo item in the database.
-const register = (request, response,next) => {
-    console.log("Here in register");
-    loginService.create(request.body)
-        .then((user) => response.json(user))
-        .catch(err => next(err));
-}
+const update = async (req, res) => {
+  const reqUserId = req.params.id;
+  const user = res.locals.user;
+  let userData = req.body;
+  console.log(reqUserId);
+  console.log(user);
+  console.log(userData);
+  if (reqUserId !== user.id) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Not authorized",
+          detail: "You are not allowed to update user date"
+        }
+      ]
+    });
+  }
 
-//This gets the specific item based on the id from the database.
-const getByUsername = (req, res, next) => {
-    loginService.getByUsername(req.body)
-        .then(user => user ? res.json(user) : res.sendStatus(404))
-        .catch(err => next(err));
-}
+  var u =  await LoginService.getUser(reqUserId)
+  console.log(u);
+  if (u){
+      User.updateOne({ _id: u._id }, { $set: { 
+        firstname : userData.firstname,
+        lastname : userData.lastname,
+        phone: userData.phone,
+        email: userData.email,
+        location : userData.location
+      } }, err => {
+        if (err) {
+          return res.status(422).send({ errors: errorHandler(err.errors) });
+        }
+        return res.json(u);
+      });
+  }
+  else{
+    return res.status(422).send({
+      errors: [
+        {
+          title: "not found",
+          detail: "user not found"
+        }
+      ]
+    });
 
-//This gets all the users from the db
-const getAllUsers= (req,res,next) =>{
-    loginService.search({})
-        .then(user => user ? res.json(user) : "No users yet ")
-        .catch(err => next(err));
-}
+  }
+};
 
-//This gets the specific item based on the id from the database and updates it with the new values.
-const update = (request,response,next) => {
-    const id = request.params.id;
-    loginService.update(id, request.body)
-    .then((user) => response.json(user))
-    .catch(err => next(err)); 
+const authenticate = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(422).send({
+      errors: [{ title: "Data missing", detail: "Provide email and password!" }]
+    });
+  }
+
+  var user = await LoginService.findOne(email);
+    console.log(user + " " + email);
+    if (!user) {
+      return res.status(422).send({
+        errors: [{ title: "Data Invalid User", detail: "User doesn't exist!" }]
+      });
+    }
+    if (user.hasSamePassword(password)) {
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          username: user.username
+
+
+        },
+        config.SECRET,
+        { expiresIn: "1h" }
+      );
+      return res.json(token);
+    } else {
+      return res.status(422).send({
+        errors: [{ title: "Wrong Data", detail: "Wrong email or password!" }]
+      });
+    }
+};
+
+const register = async (req, res) => {
+  const { username, email, password, passwordConfirmation } = req.body;
+  
+  if (!email || !password) {
+    return res.status(422).send({
+      errors: [{ title: "Data missing", detail: "Provide email and password!" }]
+    });
+  }
+
+  if (password !== passwordConfirmation) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Password doesn't match",
+          detail: "Provide the same passwords!"
+        }
+      ]
+    });
+  }
+
+  try {
+    var exist = await LoginService.findOne(email);
+    console.log(exist);
+    if (exist) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "Invalid email",
+            detail: "The user with given email already exists!"
+          }
+        ]
+      });
+    }
+  }
+    catch(e){
+      return res
+              .status(422)
+              .send({ errors: errorHandler(e.message) });
+  }
+
+    const user = await LoginService.create(username, email, password);
+    user.save(err => {
+      if (err) {
+        return res.status(401).send({ errors: errorHandler(err.errors) });
+      }
+
+      return res.json({ registered: true });
+    });
+};
+
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token.split(" ")[1], config.SECRET, function(err, user) {
+      if (err) {
+        return res.status(401).send({
+          errors: [
+            {
+              title: "Not authenticated",
+              detail: "Your session has been expired!"
+            }
+          ]
+        });
+      }
+
+      User.findById(user.userId, (err, user) => {
+        if (err) {
+          return notAuthorized(res);
+        }
+        if (user) {
+          res.locals.user = user;
+          next();
+        } else {
+          return res.status(422).send({
+            errors: [
+              {
+                title: "Not authorized",
+                detail: "You need to login to get access!"
+              }
+            ]
+          });
+        }
+      });
+    });
+  } else {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Not authorized",
+          detail: "You need to login to get access!"
+        }
+      ]
+    });
+  }
 };
 
 
-//This gets the specific item based on the id from the database and deletes it.
-const remove = (request,response,next) => {
-    const id = request.params.id;
-    loginService.remove(id)
-        .then(() => {
-            response.status(200);
-            response.json({
-                message: "Deleted Succesfully"
-            });
-        })
-    .catch(err => next(err));
-};
-
-//export it to the modules which calls this module.
-export default {
-    authenticate,
-    register,
-    getAllUsers,
-    getByUsername,
-    update,
-    remove
+export default{
+  authMiddleware,
+  update,
+  getUser,
+  authenticate,
+  register
 }

@@ -3,16 +3,22 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose, { mongo } from 'mongoose';
+
+import config from "./config";
+import FakeDb from "./fake-db";
 import routes from './routes';
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import errorHandler from './handlers/errorhandler';
 
-const MONGODV_URI = 'mongodb+srv://webdesign:webdesign1@lacabana.echsh.mongodb.net/lacabana?retryWrites=true&w=majority';
+//const MONGODV_URI = 'mongodb+srv://webdesign:webdesign1@lacabana.echsh.mongodb.net/lacabana?retryWrites=true&w=majority';
 //This is used for a persisted MongoDB connection by using Mongoose ODM framework.
-mongoose.connect(MONGODV_URI, {
+mongoose.connect(config.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
+}).then(()=>{
+    // const fakeDb = new FakeDb();
+    // fakeDb.pushDataToDb();
 });
 
 mongoose.connection.on('connected',()=>{
@@ -48,5 +54,4 @@ routes(app);
 //   });
 // global error handler
 app.use(errorHandler);
-  
 export default app;

@@ -1,96 +1,66 @@
 import User from '../models/user.model.js';
-const bcrypt = require('bcryptjs');
-
+import jwt from 'jsonwebtoken'
+import config from '../config/';
+import {async} from 'regenerator-runtime'
 //Service to authenticate the user
-const authenticate = async (body) =>{
-    let username = body.username;
-    let password = body.password;
-    const user = await User.findOne({username}).exec();
+
+const getUser = async (id) =>{
+  try{
+    var user = await User.findById(id)
+    .select("-password -rentals -bookings -id")
+    .exec();
+    return user;
+  }
+  catch(e){
+    throw Error('Error while geting user');
+  }
+}
+
+const getUser1 = async (id) =>{
+  try{
+    console.log(id);
+    var user = await User.findById(id)
+    .select("-password -rentals -bookings -balance")
+    .exec();
     console.log(user);
-    console.log(password);
-    console.log(user.password);
-    if (user && bcrypt.compareSync(password, user.password)) {
-        return user;
-    }
+    return user;
+  }
+  catch(e){
+    throw Error('Error while geting user');
+  }
 }
 
-//This is for user creation
-const create = async (userParam) => {
-    console.log("here in register");
-    // validate
-    let username = userParam.username;
-    let reg = await User.find({username}).exec();
-    console.log(reg);
-    console.log(reg == "");
-    console.log(reg == null);
-    if (reg != "") {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
-
-    const user = new User(userParam);
-
-    // hash password
-    if (userParam.password) {
-        user.password = bcrypt.hashSync(userParam.password, 10);
-    }
-
-    // save user
-    let u = await user.save();
-    return u;
-}
-
-//For updating the user details
-const update = async (id, userParam) => {
-
-    const user = await User.findById({_id : id});
-
-    // validate
-    if (!user) throw 'User not found';
-    console.log("here");
-    let u = await User.findOne({ username: userParam.username }).exec();
+const findOne = async (email) =>{
+  console.log(email);
+  try{
+    var user = await User.findOne({email}).exec();
     console.log(user);
-    console.log(userParam.username);
-    console.log(u);
-    if (user.username == userParam.username || u != null) {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
+    return user;
+  }
+  catch(e){
+    throw Error('Error while geting user');
+  }
+}
 
-    if (userParam.username){
-        user.username = userParam.username;
-    }
+const create = async (username, email, password) =>{
+  return new User({username, email, password});
+}
 
-    // hash password if it was entered
-    if (userParam.password) {
-        user.password = bcrypt.hashSync(userParam.password, 10);
-    }
+const findID = async (id) =>{
+  console.log(id);
+  try{
+    var user = await User.findById(id).exec();
     console.log(user);
-    let a = await user.save();
-    return a;
+    return user;
+  }
+  catch(e){
+    throw Error('Error while geting user');
+  }
 }
-//This service is to get all the Users.
-const search = async(filter) => {
-    const promise = await User.find(filter).exec();
-    return promise;
-}
-
-//This service is to get the specific User.
-const getByUsername = async(body) => {
-    let username = body.username;
-    const promise = await User.findOne({username }).exec();
-    return promise;
-}
-
-//This service is to delete the User.
-const remove = (id) => {
-    const promise = User.remove({_id:id}).exec();
-    return promise;
-}
-
 export default {
-    authenticate: authenticate,
-    getByUsername: getByUsername,
-    create: create,
-    search :search,
-    update: update,
-    remove: remove
+  findID : findID,
+  create : create,
+    getUser :getUser,
+    getUser1 : getUser1,
+    findOne : findOne
 }
