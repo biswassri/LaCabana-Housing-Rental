@@ -7,7 +7,6 @@ class Slider extends Component {
   render() {
     return (
       <div>
-        <Search />
         <Carousel className="image-slider">
           <Carousel.Item interval={5000} className="image-slider-item">
             <img
