@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
-        required: "Firstname is a required property."
     },
     lastname: {
         type: String,
-        required: "Lastname is a required property."
     },
     username: {
         type: String,
@@ -17,49 +16,33 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: "Password is a required property."
     },
-    address: {
+    location: {
         type: String,
-        required: "Address is a required property."
     },
-    phoneNumber: {
+    phone: {
         type: Number,
-        required: "Phone number is a required property."
     },
-    emailId: {
+    email: {
         type: String,
+        lowercase: true,
         required: "Email is a required property."
     },
     gender: {
         type: String
     },
-    maritalStatus: {
-        type: String,
-        default: "N/A"
+    balance: { 
+        type: Number, 
+        default: 0 
     },
-    incomeRange: {
-        type: Number
-    },
-    pet: {
-        type: Boolean
-    },
-    houseRented: {
-        type: Object
-    },
-    postings: {
-        type: Object
-    },
-    createdDate: {
-        type: Date,
-        default: Date.now
-    },
-    lastModifiedDate: {
-        type: Date,
-        default: Date.now
-    },
-    status:{
-        type : String,
-        default: "Pending approval"
-    },
+    postings: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Posting" 
+    }],
+    bookings: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Booking" 
+    }]
+  
 },
     {
         versionKey: false
@@ -69,5 +52,21 @@ userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 userSchema.set('toJSON', { virtuals: true });
-const model = mongoose.model('user', userSchema);
+
+userSchema.methods.hasSamePassword = function(requestedPassword) {
+    return bcrypt.compareSync(requestedPassword, this.password);
+  };
+  
+  userSchema.pre("save", function(next) {
+    const user = this;
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(user.password, salt, function(err, hash) {
+        user.password = hash;
+        next();
+      });
+    });
+  });
+
+  
+const model = mongoose.model('User', userSchema);
 export default model;
