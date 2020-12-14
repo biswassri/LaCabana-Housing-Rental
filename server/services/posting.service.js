@@ -6,15 +6,19 @@ const bcrypt = require('bcryptjs');
 const create = async (user, req) => {
     console.log("here in create posting");
     // search for userID
-    const posting = new Posting(req.body);
+    
+    const posting = await Posting.create(req.body);
+    console.log(posting);
     posting.user = user;
-    posting.save((err, newPost) => {
-      if (err) {
-        throw err;
-      }
-      User.updateOne({ _id: user.id }, { $push: { postings: posting } });
-      return posting;
-    });
+    var p = await posting.save();
+    console.log(p);
+    if (p){
+      var a = await User.update({ _id: user.id }, { $push: { postings: p } });
+      if (a) 
+        return p;
+      else return null;;
+    }
+    else return null;
 }
 
 //For updating the user details
@@ -97,21 +101,20 @@ const getByPostingID = async(req) => {
     });
 }
 //This service is to delete the Posting.
-const getbyCity = (req) => {
-    const city = req.query.city;
-    const query = city ? { city: city.toLowerCase() } : {};
-    Posting.find(query)
+const getbyCity = async(query) => {
+    console.log("here in get city");
+    try {
+        console.log(query);
+        var p = await Posting.find(query)
       .select("-bookings")
-      .exec((err, found) => {
-        if (err) {
-          throw err;
-        }
-        if (city && found.length === 0) {
-          return "No Postings";
-        }
-        return found;
-      });
-}
+      .exec();
+      console.log(p);
+      return p;
+    }
+    catch(e){
+      throw Error('Error while geting user');
+    }
+};
 
 export default {
     create: create,
