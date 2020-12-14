@@ -1,5 +1,6 @@
+import { async } from "regenerator-runtime";
 import errorHandler from "../handlers/errorhandler";
-import postingService from '../services/login.service';
+import postingService from '../services/posting.service';
 
 //This gets all the items of todo list from the database.
 const secret =  (request,response,next) => {
@@ -7,15 +8,19 @@ const secret =  (request,response,next) => {
 }
 
 //This creates the todo item in the database.
-const create = (request, response,next) => {
-    console.log("Here in register");
-    console.log(request.body);
-    console.log(response.locals);
-    const user = response.locals.user;
-    postingService.create(user, request)
-        .then((posting) => response.json(posting))
-        .catch(err => response.status(422).send({errors : errorHandler(err.errors)})
-        );
+const create = async (req, res,next) => {
+    const user = res.locals.user;
+    //console.log(user);
+  //  console.log(req.body);
+    var p = await postingService.create(user,req);
+    if(p){
+        return p;
+    }
+    else{
+        return res.status(422).send({
+            errors: [{ title: "Postings Error", detail: "Could not create Posting" }]
+          })
+    }
 }
 
 //This gets the specific item based on the id from the database.
@@ -96,10 +101,46 @@ const remove = (request,response,next) => {
 
 
 //This gets the specific item based on the PostingID from the database.
-const getbyCity = (req, res) => {
-    postingService.getbyCity(req)
-        .then(posting => posting ? res.json(posting) : res.sendStatus(422))
-        .catch(err => res.status(422).send({ errors: errorHandler(err.errors) }));
+const getbyCity = async(req, res) => {
+    const city = req.query.city;
+    const query = city ? { city: city.toLowerCase() } : {};
+    try{
+        var foundRentals = await postingService.getbyCity(query);
+    console.log(foundRentals);
+    if (foundRentals){
+        if (city && foundRentals.length === 0) {
+          return res.status(422).send({
+            errors: [
+              {
+                title: "No rentals found",
+                detail: `There are not rentals for ${city}`
+              }
+            ]
+          });
+        }
+        return res.json(foundRentals);
+      }
+      else{
+        return res.status(422).send({
+            errors: [
+              {
+                title: "Error in getting postings",
+                detail:  "Error in getting postings"
+              }
+            ]
+          });
+        }
+    }
+    catch(err){
+        return res
+        .status(422)
+        .send({ errors: [
+            {
+              title: "Error in getting postings",
+              detail:  "Error in getting postings"
+            }
+          ] });
+    }
 };
 
 //export it to the modules which calls this module.
