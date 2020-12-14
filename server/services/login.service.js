@@ -18,9 +18,11 @@ const getUser = async (id) =>{
 
 const getUser1 = async (id) =>{
   try{
+    console.log(id);
     var user = await User.findById(id)
     .select("-password -rentals -bookings -balance")
     .exec();
+    console.log(user);
     return user;
   }
   catch(e){
