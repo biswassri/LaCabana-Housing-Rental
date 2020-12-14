@@ -1,36 +1,51 @@
 import './dist/App.css';
 import React, { Component } from 'react';
-import Header from './components/nav';
-import Footer from './components/footer';
-import Slider from './components/slider';
-import CityCards from './components/citycard';
-import VideoContainer from './components/video-container';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import registerUser from './components/login-container/Register';
+import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import { connect } from "react-redux";
+
+import Register from './components/login-container/Register';
 import Home from './components/Home';
-
-
+import TenantView from './components/Tenants';
+import RoomDetails from './components/DetailView';
+import Login from './components/login-container/Login';
 
 
 class App extends Component {
   state = {}
   render() {
+    const { user = {}} = this.props;
+    const { username , isLogin = false} = user
     return (
       <div className="page-container">
         <div className="content-wrap">
           <Router>
             <Switch>
-              <Route path='/' component={registerUser} />
-              <Route path='/Home' component={Home} />
+              <Route exact path='/' component={Home} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/room/:city' 
+                render={(props) => {
+                  if(isLogin){
+                    return <RoomDetails {...props}/>
+                  }else{
+                    return <Redirect to="/login"/>
+                  }
+                }} 
+              />
+
+              {/* Add additional routes above*/}
+              {/* Handled routes which aren't registered and direct it to home*/}
+              <Route path="*" >
+                <Redirect to="/" />
+              </Route>
             </Switch>
           </Router>
         </div>
       </div>
-
-
-
     );
   }
 }
-
-export default App;
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+export default connect( mapStateToProps)(App);
