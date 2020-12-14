@@ -23,7 +23,7 @@ class App extends Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/room' 
+              <Route exact path='/room/:city' 
                 render={(props) => {
                   if(isLogin){
                     return <RoomDetails {...props}/>

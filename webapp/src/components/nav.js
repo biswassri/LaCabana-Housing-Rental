@@ -44,11 +44,6 @@ class Header extends Component {
               : 
               <Nav.Link className="navbar-text" href="/register">Register</Nav.Link>
             }
-            
-            <Nav.Link>Help</Nav.Link>
-            <NavItem>
-                <MDBIcon icon="question-circle" />
-            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
