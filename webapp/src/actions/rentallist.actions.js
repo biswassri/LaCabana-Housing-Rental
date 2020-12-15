@@ -9,6 +9,8 @@ import {
   FETCH_RENTALS_FAIL,
 } from "./type";
 
+const axiosInstance = axiosService.getInstance();
+
 function getErrorDescription(rejected) {
     return rejected.response
       ? rejected.response.data.errors || rejected.response.statusText
@@ -32,4 +34,13 @@ export const fetchRentals = city => {
           });
         });
     };
+  };
+
+  export const createRental = rentalData => {
+    return axiosInstance
+      .post("/postings/", { ...rentalData })
+      .then(
+        res => res.data,
+        rejected => Promise.reject(getErrorDescription(rejected))
+      );
   };

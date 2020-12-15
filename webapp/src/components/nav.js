@@ -46,7 +46,7 @@ class Header extends Component {
             )}
             {isLogin ? (
               <NavDropdown title="Owner Section" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/rentals/new">Create Rental</NavDropdown.Item>
+                <NavDropdown.Item href="/postings/new">Create Rental</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="rentals/manage">Manage Rentals</NavDropdown.Item>
                 <NavDropdown.Divider />
