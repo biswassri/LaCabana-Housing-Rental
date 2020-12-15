@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import user from "./user.reducer"
+import user from "./user.reducer";
+import { rentalsReducer } from "./rentallist.red";
 
 export default combineReducers({
-    user
+    user,
+    rentals: rentalsReducer,
 });
