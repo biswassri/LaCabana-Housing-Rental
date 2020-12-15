@@ -7,6 +7,6 @@ import roomBookingRouter from './roomBooking.route'
 export default (app) => {
   app.use('/lacabana/users', loginRouter);
   app.use('/lacabana/postings', postingRouter);
-//  app.use('/lacabana/payments', paymentRouter);
+  app.use('/lacabana/payments', paymentRouter);
   app.use('/lacabana/bookings', roomBookingRouter);
 };

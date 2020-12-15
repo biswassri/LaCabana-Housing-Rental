@@ -52,9 +52,9 @@ const update = async (req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
   let userData = req.body;
-  console.log(reqUserId);
-  console.log(user);
-  console.log(userData);
+  // console.log(reqUserId);
+  // console.log(user);
+  // console.log(userData);
   if (reqUserId !== user.id) {
     return res.status(422).send({
       errors: [
@@ -66,22 +66,27 @@ const update = async (req, res) => {
     });
   }
 
-  var u =  await LoginService.getUser(reqUserId)
+  var u =  await LoginService.getUser(reqUserId);
   console.log(u);
   if (u){
-      await User.updateOne({ _id: u._id }, { $set: { 
+      try
+      { 
+        var use = await User.updateOne({ _id: u._id }, { $set: { 
         firstname : userData.firstname,
         lastname : userData.lastname,
         phone: userData.phone,
         email: userData.email,
         location : userData.location
-      } }, err => {
-        if (err) {
+      } });
+      if (use){     
+        return res.json(use);
+      }
+      }
+    catch (err) {
           return res.status(422).send( {errors: [{ title: "Error", detail: err }]
         });
-        }
+    }
         return res.json(u);
-      });
   }
   else{
     return res.status(422).send({

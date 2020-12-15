@@ -53,7 +53,9 @@ const managePostings= async (req,res,next) =>{
 
     const user = res.locals.user;
     try{
+        console.log(user);
         var p = await postingService.managePostings(user);
+        console.log(p);
         if(p){
          return res.json(p);
         }
@@ -76,21 +78,21 @@ const update = async (request,response,next) => {
         var posting = await postingService.update(id, request.body, response);
 
     if(!posting){
-        res.status(422).send({
+      response.status(422).send({
         errors: [{ title: "Posting Error", detail: "Could not find Posting" }]
         });
     }
     if(posting == "Invalid"){
-        res.status(422).send({
+      response.status(422).send({
             errors: [
                 { title: "Invalid User", detail: "You are not Posting owner" }
             ]
         });
     }
-    return res.json(posting);
+    return response.json(posting);
     }   
     catch(err){ 
-        res.status(422).send({ errors: [{ title: "Posting Error", detail: "Could not find Posting" }]});
+      response.status(422).send({ errors: [{ title: "Posting Error", detail: "Could not find Posting" }]});
     } 
 }
 
@@ -141,7 +143,7 @@ const remove = async (request,response,next) => {
 //This gets the specific item based on the PostingID from the database.
 const getbyCity = async(req, res) => {
     const city = req.query.city;
-    const query = city ? { city: city.toLowerCase() } : {};
+    const query = city ? { city: city } : {};
     try{
         var foundRentals = await postingService.getbyCity(query);
     console.log(foundRentals);

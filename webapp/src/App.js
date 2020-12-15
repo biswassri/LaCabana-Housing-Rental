@@ -8,6 +8,7 @@ import Home from './components/Home';
 import TenantView from './components/Tenants';
 import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
+import CreatePosting from './components/CreatePostinglForm';
 
 
 class App extends Component {
@@ -32,7 +33,7 @@ class App extends Component {
                   }
                 }} 
               />
-
+              <Route exact path='/postings/new' component={CreatePosting} />
               {/* Add additional routes above*/}
               {/* Handled routes which aren't registered and direct it to home*/}
               <Route path="*" >
