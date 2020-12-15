@@ -1,4 +1,5 @@
 import axios from "axios";
+import constants from "../utils/constants";
 
 function getErrorDescription(rejected) {
     return rejected.response
@@ -7,7 +8,7 @@ function getErrorDescription(rejected) {
   }
 export const register = userData => {
     return axios
-      .post("/api/v1/users/register", { ...userData })
+      .post(`${constants.BASE_URL_API}/users/register`, { ...userData })
       .then(
         res => res.data,
         rejected => Promise.reject(getErrorDescription(rejected))
