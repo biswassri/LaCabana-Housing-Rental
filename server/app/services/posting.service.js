@@ -25,35 +25,37 @@ const create = async (user, req) => {
 const update = async (id, userParam, response) => {
     console.log(id);
     console.log(userParam);
-    console.log(response);
     const user = response.locals.user;
-    var post = await Posting.findById(id)
+    var foundRental = await Posting.findById(id)
     .populate("user", "_id")
     .exec();
-    if(post){
-      if (user.id !== foundRental.user.id) {
-        return "Invalid";
-      }
 
-      post.set(userParam);
-      post.save(err => {
-        if (err) {
-          throw err;
-        }
-        return post;
-      });
+    console.log(foundRental);
+    if (user.id !== foundRental.user.id) {
+      return "Invalid";
     }
-    else return null;
+    console.log("Here");
+
+    var post = await Posting.update({_id : id},
+      {$set : userParam})
+    .exec();
+
+    if(post)
+      return post;
+    else 
+      return null;
 }
 
 //This service is to get the posting by user.
 const managePostings = async(user) => {
-     var p = await Posting.where(user)
+     var p = await Posting.find({ user : { _id : user._id}})
       .populate("bookings")
       .exec();
-      if(p) 
+    console.log(p);
+
+    if(p) 
       return p;
-      else 
+    else 
       return null;
 
 }

@@ -1,12 +1,17 @@
 
 import errorHandler from '../handlers/errorhandler';
 import RoomBookingService from '../services/roomBooking.service';
+import RoomBooking from '../models/roombooking.model';
 
 const CUSTOMER_SHARE = 0.8;
 
 const getUserBookings = async (req, res, next) => {
     try{
-      var booking =  await RoomBookingService.getUserBookings(req,res);
+      console.log("Here");
+      const user = res.locals.user;
+      var booking =  await RoomBooking.find({user : user}).exec();
+      console.log("Back to cont");
+      console.log(booking);
       if(booking) return res.json(booking)
       else return res.sendStatus(422).send({ 
         errors: [
@@ -31,7 +36,7 @@ const getUserBookings = async (req, res, next) => {
 
 const createBooking = async (req, res, next) => {
     try{
-      var booking = await RoomBookingService.getUserBookings(req,res);
+      var booking = await RoomBookingService.createBooking(req,res);
     
     if (booking == "Invalid"){
         res.status(422).send({
@@ -66,7 +71,12 @@ const createBooking = async (req, res, next) => {
         return res.json(booking);
     }
     catch(err) {
-      return res.status(422).send({ errors: errorHandler(err.errors) });
+      return res.status(422).send({errors: [
+        {
+          title: "Error Booking",
+          detail: "Cannot create booking"
+        }
+      ] });
     }
 }
 
