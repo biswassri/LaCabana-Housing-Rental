@@ -7,14 +7,17 @@ const Payment = require("../models/payment.model");;
 
 const getUserBooking = async(req,res) =>{
     const user = res.locals.user;
-    await RoomBooking.where({ user })
+    try{
+      var book = await RoomBooking.where(user)
     .populate("posting")
-    .exec((err, foundBookings) => {
-      if (err) {
+    .exec();
+    if (book)
+      return book;
+    else return null; 
+  }
+  catch(err) {
        throw err; 
     }
-      return foundBookings;
-    });
 }
 const createBooking = async(req,res) => {
     const {
@@ -26,6 +29,7 @@ const createBooking = async(req,res) => {
         rentalId,
         paymentToken
       } = req.body;
+      console.log(req.body);
       const user = res.locals.user;
       const booking = new RoomBooking({
         startAt,
@@ -34,19 +38,17 @@ const createBooking = async(req,res) => {
         days,
         guests
       });
-
-      await Posting.findById(rentalId)
+      console.log(booking);
+      try{
+        var result = await Posting.findById(rentalId)
         .populate("bookings")
         .populate("user")
-        .exec(async (err, result) => {
-          if (err) {
-            throw err;
-        }
-          if (result.user.id === user.id) {
-            return "Invalid";
-          }
+        .exec();
+      if (result.user.id === user.id) {
+        return "Invalid";
+      }
     
-          if (isValidBooking(booking, result)) {
+      if (isValidBooking(booking, result)) {
             booking.user = user;
             booking.posting = result;
             result.bookings.push(booking);
@@ -74,10 +76,13 @@ const createBooking = async(req,res) => {
             } else {
               return "Payment";
             }
-          } else {
-            return "Booking";
-          }
-        });
+      } else {
+        return "Booking";
+      }
+    }
+    catch(err){
+      throw err;
+    }
 }
 
 
