@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import RentalAssets from "./RentalAssets";
+import PostingAmenities from "./amenities";
 
-const RentalDetailInfo = ({ rental }) => {
+const PostingDetailInfo = ({ rental }) => {
   return (
     <div className="rental">
       <div className="d-flex justify-content-between">
@@ -34,7 +34,7 @@ const RentalDetailInfo = ({ rental }) => {
       </div>
       <p className="rental-description">{rental.description}</p>
       <hr />
-      <RentalAssets />
+      <PostingAmenities />
     </div>
   );
 };
@@ -42,4 +42,4 @@ const RentalDetailInfo = ({ rental }) => {
 const mapStateToProps = state => {
   return { rental: state.rental.data };
 };
-export default connect(mapStateToProps)(RentalDetailInfo);
+export default connect(mapStateToProps)(PostingDetailInfo);

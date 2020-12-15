@@ -1,6 +1,4 @@
 import axios from "axios";
-import authService from "../services/auth.service";
-import axiosService from "../services/axios.service";
 import constants from "../utils/constants";
 
 import {
@@ -33,3 +31,19 @@ export const fetchRentals = city => {
         });
     };
   };
+
+  export const fetchRental = id => dispatch => {
+    dispatch({ type: FETCH_RENTAL_BY_ID_INIT });
+    return axios
+      .get(`${constants.BASE_URL_API}/postings/${id}`)
+      .then(response =>
+        dispatch({ type: FETCH_RENTAL_BY_ID_SUCCESS, payload: response.data })
+      )
+      .catch(rejected =>
+        dispatch({
+          type: FETCH_RENTAL_BY_ID_FAIL,
+          payload: getErrorDescription(rejected)
+        })
+      );
+  };
+
