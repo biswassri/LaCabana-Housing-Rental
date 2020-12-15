@@ -1,12 +1,13 @@
 import axios from "axios";
-import authService from "../services/auth.service";
-import axiosService from "../services/axios.service";
 import constants from "../utils/constants";
 
 import {
   FETCH_RENTALS_INIT,
   FETCH_RENTALS_SUCCESS,
   FETCH_RENTALS_FAIL,
+  FETCH_RENTAL_BY_ID_INIT,
+  FETCH_RENTAL_BY_ID_SUCCESS,
+  FETCH_RENTAL_BY_ID_FAIL
 } from "./type";
 
 const axiosInstance = axiosService.getInstance();
@@ -34,6 +35,21 @@ export const fetchRentals = city => {
           });
         });
     };
+  };
+
+export const fetchRentalByID = id => dispatch => {
+    dispatch({ type: FETCH_RENTAL_BY_ID_INIT });
+    return axios
+      .get(`${constants.BASE_URL_API}/postings/${id}`)
+      .then(response =>
+        dispatch({ type: FETCH_RENTAL_BY_ID_SUCCESS, payload: response.data })
+      )
+      .catch(rejected =>
+        dispatch({
+          type: FETCH_RENTAL_BY_ID_FAIL,
+          payload: getErrorDescription(rejected)
+        })
+      );
   };
 
   export const createRental = rentalData => {

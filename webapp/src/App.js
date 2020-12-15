@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import { connect } from "react-redux";
 
-import Register from './components/login-container/Register';
+import Register from './components/register/Register';
 import Home from './components/Home';
 import TenantView from './components/Tenants';
 import DetailList from './components/DetailView';

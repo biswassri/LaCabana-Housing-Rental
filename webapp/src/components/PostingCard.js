@@ -7,7 +7,7 @@ const PostingCard = (props) => {
   return (
     <div className="col-xs-6 col-md-4 rental-card">
       <Card style={{ width: "18rem" }}>
-        <Card.Link href="/">
+        <Card.Link to >
           <Card.Img variant="top" src="/assets/Bedroom.jpg" />
           <Card.Body>
             <Card.Title className="color-card">{rental.title}</Card.Title>

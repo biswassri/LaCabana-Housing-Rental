@@ -2,7 +2,7 @@ import axios from "axios";
 import authService from "../services/auth.service";
 import axiosService from "../services/axios.service";
 import constants from "../utils/constants";
-import { LOGIN_SUCCESS_ACT, LOGIN_FAILURE_ACT, LOGOUT_ACT, CLEAR_LOGIN_ERROR_ACT } from "./type";
+import { LOGIN_SUCCESS_ACT, LOGIN_FAILURE_ACT, LOGOUT_ACT, CLEAR_LOGIN_ERROR_ACT, REGISTER } from "./type";
 
 function getErrorDescription(rejected) {
   return rejected.response
@@ -68,3 +68,13 @@ export const clearLoginErrors = () => {
         })
     }
 }
+
+export const register = userData => {
+  return axios
+    .post(`${constants.BASE_URL_API}/users/register`, { ...userData })
+    .then(
+      res => res.data,
+      rejected => Promise.reject(getErrorDescription(rejected))
+    );
+};
+
