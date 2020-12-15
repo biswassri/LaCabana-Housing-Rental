@@ -2,11 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {logout} from "../actions/user.actions"
+import { useHistory } from "react-router-dom";
 
 import { MDBRow, MDBCol, MDBIcon, MDBNavLink } from "mdbreact";
 
 class Header extends Component {
   state = {};
+  handleLogout = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    this.props.logout();
+  }
   render() {
     const { user = {}} = this.props;
     const { username , isLogin = false} = user
@@ -40,7 +47,7 @@ class Header extends Component {
             {
               isLogin 
               ? 
-              <Nav.Link href="#home">Logout</Nav.Link>
+              <Nav.Link href="/" onClick={this.handleLogout}>Logout</Nav.Link>
               : 
               <Nav.Link className="navbar-text" href="/register">Register</Nav.Link>
             }
@@ -56,4 +63,4 @@ class Header extends Component {
 const mapStateToProps = state => {
   return { user: state.user };
 };
-export default connect( mapStateToProps)(Header);
+export default connect( mapStateToProps,{logout})(Header);
