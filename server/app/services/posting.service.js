@@ -27,15 +27,14 @@ const update = async (id, userParam, response) => {
     console.log(userParam);
     console.log(response);
     const user = response.locals.user;
-    Posting.findById(id)
+    var post = await Posting.findById(id)
     .populate("user", "_id")
-    .exec((err, post) => {
-      if (err) {
-        throw err;
-      }
+    .exec();
+    if(post){
       if (user.id !== foundRental.user.id) {
         return "Invalid";
       }
+
       post.set(userParam);
       post.save(err => {
         if (err) {
@@ -43,62 +42,63 @@ const update = async (id, userParam, response) => {
         }
         return post;
       });
-    });
+    }
+    else return null;
 }
 
 //This service is to get the posting by user.
-const managePostings = async(req,res) => {
-    const user = res.locals.user;
-     Posting.where({user})
+const managePostings = async(user) => {
+     var p = await Posting.where(user)
       .populate("bookings")
-      .exec((err, result) =>{
-          if (err){
-            throw err;
-          }
-          else return result;
-      });
+      .exec();
+      if(p) 
+      return p;
+      else 
+      return null;
+
 }
 
 const remove = async(id, res) => {
     const user = res.locals.user;
-    await Posting.findById(rentalId)
+    try{
+      var result = await Posting.findById(rentalId)
         .populate("user", "_id")
         .populate({
             path: "bookings",
             select: "endAt",
             match: { endAt: { $gt: new Date() } }
     })
-    .exec((err, result) => {
+    .exec();
+    if (user.id !== result.user.id) {
+      return "Invalid";
+    }
+
+    if (result.bookings.length > 0) {
+      return "Present";
+    }
+    result.remove(err => {
       if (err) {
         throw err;
-         }
-      if (user.id !== result.user.id) {
-        return "Invalid";
       }
-
-      if (result.bookings.length > 0) {
-        return "Present";
-      }
-      result.remove(err => {
-        if (err) {
-          throw err;
-        }
-      });
-      return "Success";
     });
+    return "Success";
+  }
+  catch(err){
+    return "err";
+  }
 }
-const getByPostingID = async(req) => {
-    const id = req.params.id;
-
-    await Posting.findById(id)
-    .populate("user", "username -_id")
-    .populate("bookings", "startAt endAt -_id")
-    .exec((err, found) => {
-      if (err) {
-        throw err;
-      }
-      return found;
-    });
+const getByPostingID = async(id) => {
+  console.log(id);
+    var p = await Posting.findById(id)
+    .populate("user")
+    .populate( {path : "bookings" , model : "RoomBooking"})
+    .exec();
+    console.log("Here in service");
+    console.log(p);
+    if(p){
+      return p;
+    }
+    else return null;
 }
 //This service is to delete the Posting.
 const getbyCity = async(query) => {
