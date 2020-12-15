@@ -2,7 +2,7 @@ import Posting from "./models/posting.model";
 import User from "./models/user.model";
 import Booking from "./models/roombooking.model";
 import Payment from "./models/payment.model";
-import fakeDbData from "./test/data.json";
+import fakeDbData from "../data.json";
 
 class FakeDb {
   constructor() {
