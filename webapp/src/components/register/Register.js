@@ -45,7 +45,8 @@ class Register extends Component {
                  Welcome to the world of fine living!
                 </h2>
                 <img
-                  src="../assests/register.jpg"
+                  src="/assets/register.jpg"
+                  width ="500px"
                   alt=""
                 />
               </div>
