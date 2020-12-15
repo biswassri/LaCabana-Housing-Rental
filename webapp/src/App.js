@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Register from './components/register/Register';
 import Home from './components/Home';
 import TenantView from './components/Tenants';
-import RoomDetails from './components/DetailView';
+import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
 
 
@@ -26,7 +26,7 @@ class App extends Component {
               <Route exact path='/room/:city' 
                 render={(props) => {
                   if(isLogin){
-                    return <RoomDetails {...props}/>
+                    return <DetailList {...props}/>
                   }else{
                     return <Redirect to="/login"/>
                   }

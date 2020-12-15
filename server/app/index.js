@@ -3,6 +3,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose, { mongo } from 'mongoose';
+var cors = require('cors');
 
 import config from "./config";
 import FakeDb from "./fake-db";
@@ -17,12 +18,12 @@ mongoose.connect(config.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{
-    // const fakeDb = new FakeDb();
-    // fakeDb.pushDataToDb();
+    const fakeDb = new FakeDb();
+    fakeDb.pushDataToDb();
 });
 
 mongoose.connection.on('connected',()=>{
-    console.log("Connection successful");
+    console.log("DB Connection successful");
 });
 mongoose.Promise = global.Promise;
 
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 //To allow all kinds of request
 app.use((req, res, next) => {

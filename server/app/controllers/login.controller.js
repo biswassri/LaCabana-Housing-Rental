@@ -21,7 +21,12 @@ const getUser = async(req, res) => {
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error getting user",
+                  detail: "Cant find user"
+                }
+              ] });
     }
     
   } else {
@@ -33,7 +38,12 @@ const getUser = async(req, res) => {
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error getting user",
+                  detail: "Cant find user"
+                }
+              ] });
     }
   }
 };
@@ -67,7 +77,8 @@ const update = async (req, res) => {
         location : userData.location
       } }, err => {
         if (err) {
-          return res.status(422).send({ errors: errorHandler(err.errors) });
+          return res.status(422).send( {errors: [{ title: "Error", detail: err }]
+        });
         }
         return res.json(u);
       });
@@ -76,8 +87,8 @@ const update = async (req, res) => {
     return res.status(422).send({
       errors: [
         {
-          title: "not found",
-          detail: "user not found"
+          title: "Not found",
+          detail: "User not found"
         }
       ]
     });
@@ -157,13 +168,23 @@ const register = async (req, res) => {
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error in creating",
+                  detail: e
+                }
+              ] });
   }
 
     const user = await LoginService.create(username, email, password);
     user.save(err => {
       if (err) {
-        return res.status(401).send({ errors: errorHandler(err.errors) });
+        return res.status(401).send({  errors: [
+          {
+            title: "Error in creating",
+            detail: err
+          }
+        ]  });
       }
 
       return res.json({ registered: true });
