@@ -21,10 +21,10 @@ class Footer extends Component {
                         <div className="col-md-3 col-sm-6">
                             <h4>CONTACT</h4>
                             <ul className="list-unstyled">
-                                <li class="fas fa-home mr-3">Boston, MA</li>
-                                <li class="fas fa-envelope mr-3">info@example.com</li>
-                                <li class="fas fa-phone mr-3">+ 01 234 567 88</li>
-                                <li class="fas fa-print mr-3">+ 01 234 567 89</li>
+                                <li className="fas fa-home mr-3">Boston, MA</li>
+                                <li className="fas fa-envelope mr-3">info@example.com</li>
+                                <li className="fas fa-phone mr-3">+ 01 234 567 88</li>
+                                <li className="fas fa-print mr-3">+ 01 234 567 89</li>
                             </ul>
                         </div>
                         {/* COl 3 */}
@@ -40,7 +40,7 @@ class Footer extends Component {
                     </div>
                     {/* Footer Bottom */ }
                     <hr />
-                    <div classNeme="footer-bottom">
+                    <div className="footer-bottom">
                         <p className="text-xs-center">
                             &copy;{new Date().getFullYear()} La Cabana - All Rights Reserved
                         </p>

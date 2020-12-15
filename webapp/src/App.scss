@@ -135,3 +135,15 @@
 .react-player {
     position: relative;
   }
+
+  .LoginBox  {
+      width : 22rem;
+      height : auto;
+      border-radius: 8px;
+      background-color: #e6e6e6;
+      box-shadow: 0 0 6px 0 rgba($color: lightgrey, $alpha: 0.7);
+  }
+
+  .rental-card {
+      padding: 10px;
+  }
