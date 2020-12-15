@@ -2,6 +2,7 @@ import Payment from '../models/payment.model';
 import User from '../models/user.model';
 import Booking from '../models/roombooking.model';
 import Posting from '../models/posting.model'
+import nodemailer from 'nodemailer';
 
 const getPendingPayments = async(user)=>{
     console.log(user);
@@ -93,8 +94,27 @@ const confirmPayment = async(payment,user)=>{
             { _id: foundPayment.toUser._id },
             { $inc: { balance: foundPayment.amount } })
             .exec();
-            if(p)
+            if(u){
+              const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 587,
+                auth: {
+                    user: 'testresmail@gmail.com',
+                    pass: 'Godisgreat123!'
+                }
+            });
+            console.log(foundPayment.fromUser);
+            var us = await User.findById(foundPayment.fromUser);
+            console.log(us);
+            // send email
+            await transporter.sendMail({
+                from: 'lacabanabookings@gmail.com',
+                to: us.email,
+                subject: 'Your booking is confirmed',
+                text: 'Your booking at Lacabana is confirmed'
+            });
               return "paid";
+            }
             else 
                 return null;
                 

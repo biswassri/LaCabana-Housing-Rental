@@ -5,6 +5,7 @@ import PaymentService from '../services/payment.service';
 import postingService from "../services/posting.service";
 import paymentService from "../services/payment.service";
 
+
 const getPendingPayments = async (req,res,next) =>{
     const user = res.locals.user;
 
@@ -34,6 +35,7 @@ const confirmPayment = async (req,res,next) =>{
        var pay = await PaymentService.confirmPayment(payment, user);
        console.log(pay);
        if (pay){
+
         return res.json({ status: "paid" });
        }
        else {
