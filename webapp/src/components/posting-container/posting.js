@@ -5,7 +5,9 @@ import { fetchRentalByID, getReviews } from "../../actions/rentallist.actions";
 import PostingDetailInfo from "./postingDetails";
 import RentalDetailUpdate from "./postingUpdate";
 import Header from "../nav";
-import GoogleMap from "../map/GoogleMap";
+import GoogleMap from "../map-container/GoogleMap";
+import Booking from "../booking-container/booking";
+
 class PostingDetail extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ class PostingDetail extends Component {
           <PostingDetailInfo rental = {rental} />
         </div>
         <div className="col-md-4">
-          
+        <Booking rental = {rental} />
         </div>
         {/* {this.renderReviews()} */}
       </React.Fragment>
