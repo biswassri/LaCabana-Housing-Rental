@@ -1,6 +1,7 @@
 import {LOGIN_SUCCESS_ACT, LOGIN_FAILURE_ACT , LOGOUT_ACT, CLEAR_LOGIN_ERROR_ACT} from "../actions/type";
 
 const INITIAL_STATE = {
+    userId: "",
     username: "",
     email: "",
     firstname: "",
@@ -17,6 +18,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLogin: true,
+                userId: action.userId,
                 errors: [],
                 username: action.username,
                 email: action.email,
