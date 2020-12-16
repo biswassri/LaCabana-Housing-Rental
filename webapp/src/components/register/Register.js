@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import { register } from "../../actions";
+import Header from "./../nav";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 
 class Register extends Component {
   constructor() {
@@ -32,28 +34,37 @@ class Register extends Component {
     }
 
     return (
-      <section id="register">
-        <div className="bwm-form">
-          <div className="row">
-            <div className="col-md-5">
-              <h1>Register</h1>
-              <RegisterForm submitCb={this.registerUser} errors={errors} />
-            </div>
-            <div className="col-md-6 ml-auto">
-              <div className="image-container">
-                <h2 className="catchphrase">
-                 Welcome to the world of fine living!
-                </h2>
-                <img
-                  src="/assets/register.jpg"
-                  width ="500px"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
+      <div className="page-container">
+        <div
+          className="content-wrap"
+          style={{ backgroundImage: `url('/assets/cities_collage.jpg')` }}
+        >
+          <Header />
+          <Fragment>
+            <Container>
+              <Row>
+                <Col>
+                  <section id="register">
+                    <div className="bwm-form">
+                      <div className="row">
+                        <h2 className="catchphrase">
+                          Welcome to the world of fine living!
+                       </h2>
+                        <div className="col-md-5">
+                          <h1>Register</h1>
+                          <RegisterForm submitCb={this.registerUser} errors={errors} />
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </Col>
+              </Row>
+
+            </Container>
+          </Fragment>
         </div>
-      </section>
+      </div>
+
     );
   }
 }
