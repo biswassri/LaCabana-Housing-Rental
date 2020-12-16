@@ -41,3 +41,23 @@ export const fetchUserBookings = () => {
       bookings
     };
   };
+
+export const getPendingPayments = () => {
+    return axiosInstance
+        .get("/payments")
+        .then(res => res.data)
+        .catch(rejected => Promise.reject(getErrorDescription(rejected)));
+};
+export const acceptPayment = payment => {
+    return axiosInstance
+      .post("/payments/accept", payment)
+      .then(res => res.data)
+      .catch(rejected => Promise.reject(getErrorDescription(rejected)));
+};
+  
+export const declinePayment = payment => {
+    return axiosInstance
+      .post("/payments/decline", payment)
+      .then(res => res.data)
+      .catch(rejected => Promise.reject(getErrorDescription(rejected)));
+};
