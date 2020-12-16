@@ -40,6 +40,7 @@ class BookingModal extends Component {
       days,
       guests,
       dailyRate,
+      rentalId,
       open,
       closeModal
     } = this.props;
