@@ -1,5 +1,7 @@
 @import 'style/Posting';
 @import "style/variable";
+@import 'style/booking';
+@import 'style/confirmation.scss';
 
 .navbar-custom {
     background-color: #e6e6e6;
@@ -203,3 +205,8 @@
       margin-bottom: 5px;
     }
   }
+
+  
+.form-group{
+    orientation: auto;
+}
