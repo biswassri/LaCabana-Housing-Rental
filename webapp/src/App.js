@@ -7,7 +7,11 @@ import Register from './components/register/Register';
 import Home from './components/Home';
 import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
+<<<<<<< HEAD
 import PostingDetail from './components/posting-container/posting';
+=======
+import CreatePosting from './components/CreatePostinglForm';
+>>>>>>> 6e247c98fe94e0e3629f845aa67316eeb4bccb7c
 
 
 class App extends Component {
@@ -32,6 +36,7 @@ class App extends Component {
                   }
                 }} 
               />
+<<<<<<< HEAD
               <Route exact path='/room/:city/:id' 
                 render={(props) => {
                   if(isLogin){
@@ -42,6 +47,9 @@ class App extends Component {
                 }} 
               />
 
+=======
+              <Route exact path='/postings/new' component={CreatePosting} />
+>>>>>>> 6e247c98fe94e0e3629f845aa67316eeb4bccb7c
               {/* Add additional routes above*/}
               {/* Handled routes which aren't registered and direct it to home*/}
               <Route path="*" >

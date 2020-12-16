@@ -18,8 +18,8 @@ mongoose.connect(config.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{
-    const fakeDb = new FakeDb();
-    fakeDb.pushDataToDb();
+    // const fakeDb = new FakeDb();
+    // fakeDb.pushDataToDb();
 });
 
 mongoose.connection.on('connected',()=>{

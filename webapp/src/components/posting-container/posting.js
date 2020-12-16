@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import StarRatings from "react-star-ratings";
-import { fetchRental, getReviews } from "../../actions/rentallist.actions";
+import { fetchRentalByID, getReviews } from "../../actions/rentallist.actions";
 import PostingDetailInfo from "./postingDetails";
 
 
@@ -16,7 +16,7 @@ class PostingDetail extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props
-      .fetchRental(id)
+      .fetchRentalByID(id)
       .then(data => data.payload._id);
   }
 
