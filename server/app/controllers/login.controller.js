@@ -125,7 +125,7 @@ const authenticate = async (req, res) => {
           location: user.location
         },
         config.SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "24h" }
       );
       return res.json(token);
     } else {
