@@ -5,7 +5,7 @@ import PaymentService from '../services/payment.service';
 import postingService from "../services/posting.service";
 import paymentService from "../services/payment.service";
 
-
+//for the pending payments
 const getPendingPayments = async (req,res,next) =>{
     const user = res.locals.user;
 
@@ -26,6 +26,7 @@ const getPendingPayments = async (req,res,next) =>{
 
 };
 
+//for confirming the payment and updating all tables related to it
 const confirmPayment = async (req,res,next) =>{
     const payment = req.body;
     const user = res.locals.user;
@@ -52,6 +53,8 @@ const confirmPayment = async (req,res,next) =>{
     }
     
 };
+
+//for delcining payments and updating all tables rel to it
 const declinePayment = (req,res,next) =>{
     const payment = req.body;
     try{

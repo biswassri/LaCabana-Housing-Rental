@@ -9,6 +9,9 @@ const PendingBookings = (props) => {
   const { email, username } = fromUser;
 
   return (
+    /**
+     * Card layout for pending bookings
+     */
     <div className="col-xs-6 col-md-4 rental-card">
       <Card style={{ width: "18rem" }}>
         <Card.Link>

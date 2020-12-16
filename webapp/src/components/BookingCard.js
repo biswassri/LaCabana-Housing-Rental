@@ -6,6 +6,9 @@ import { pretifyDate, toUpperCase } from "../helpers";
 const BookingCard = (props) => {
   const { days=0, endAt='', guests=0, startAt='', status='', totalPrice=0 } = props.booking;
 
+  /**
+   * Bootstrap card to display each booking
+   */
   return (
     <div className="col-xs-6 col-md-4 rental-card">
       <Card style={{ width: "18rem" }}>

@@ -4,7 +4,9 @@ import RegisterForm from "./RegisterForm";
 import { register } from "../../actions";
 import Header from "./../nav";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-
+/**
+ * Registeration Page for Users
+ */
 class Register extends Component {
   constructor() {
     super();

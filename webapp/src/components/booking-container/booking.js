@@ -6,7 +6,9 @@ import DateRangePicker from "react-bootstrap-daterangepicker";
 import { toast } from "react-toastify";
 import { getRangeOfDates, dateToUTC } from "../../helpers";
 import BookingModal from "./bookingModal";
-
+/**
+ * Boooking any particular rental and creating a new booking workflow
+ */
 class Booking extends Component {
   constructor(props) {
     super(props);

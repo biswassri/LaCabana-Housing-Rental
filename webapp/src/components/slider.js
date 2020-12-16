@@ -5,6 +5,9 @@ import Search from "./search";
 class Slider extends Component {
   state = {};
   render() {
+    /**
+     * Bootstrap Carousel component
+     */
     return (
       <div>
         <Carousel className="image-slider">

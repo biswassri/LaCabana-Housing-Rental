@@ -8,6 +8,9 @@ import FormSelect from "../shared/form/FormSelect";
 import ResError from "../shared/form/ResError";
 import { toUpperCase } from "../../helpers";
 
+/**
+ * Form for Creating a new Posting
+ */
 const RentalForm = props => {
   const {
     handleSubmit,

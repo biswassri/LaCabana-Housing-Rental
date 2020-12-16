@@ -12,6 +12,9 @@ class Home extends Component {
   componentDidMount(){
     console.log("USER_STORE::::", this.props.user)
   }
+  /**
+   * Landing page bootstrap
+   */
   render() {
     return (
         <div className="page-container">

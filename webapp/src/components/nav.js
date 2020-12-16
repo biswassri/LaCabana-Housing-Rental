@@ -17,6 +17,9 @@ class Header extends Component {
     this.props.history.push('/')
   };
   render() {
+    /**
+     * Bootstrap nav bar
+     */
     const { user = {} } = this.props;
     const { username, isLogin = false } = user;
     return (

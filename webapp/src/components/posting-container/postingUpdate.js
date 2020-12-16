@@ -4,7 +4,9 @@ import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import RentalForm from "./PostingForm";
 import { updateRental } from "../../actions/rentallist.actions";
-
+/**
+ * Updating the posting for any rental application
+ */
 class RentalDetailUpdate extends Component {
   constructor() {
     super();

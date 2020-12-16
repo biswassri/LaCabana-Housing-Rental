@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import  RentalAssets from "./amenities";
 
+
 const PostingDetailInfo = ({ rental }) => {
   console.log(rental);
    return (
