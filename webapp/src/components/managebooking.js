@@ -3,25 +3,60 @@ import Footer from "./footer";
 import Header from "./nav";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchUserBookings } from "../actions/booking.action";
+import { fetchUserBookings, getPendingPayments, acceptPayment, declinePayment } from "../actions/booking.action";
 import BookingCard from "./BookingCard";
+import PendingBookings from "./PendingBookings";
+import { Container, Row } from "react-bootstrap";
 
-class ManageBooking extends Component {
+class ManageBooking extends Component { 
   state = {
     pendingPayments: [],
   };
   componentDidMount() {
     this.props.fetchUserBookings();
+    this.getPendingPayments();
   }
-  renderBookings(bookings) {
+  renderBookings = (bookings) => {
     return bookings.map((booking) => (
       <BookingCard key={booking._id} booking={booking} />
     ));
+  };
+  renderPendingBookings = (pendingPayments) => {
+    return pendingPayments.map((pendingPayment) => (
+      <PendingBookings key={pendingPayment._id} pendingPayment={pendingPayment} declinePayment={this.declinePayment} acceptPayment={this.acceptPayment} />
+    ));
+  };
+
+  declinePayment = (payment) => {
+    declinePayment(payment)
+        .then(data => {
+            this.props.fetchUserBookings();
+            this.getPendingPayments();
+        })
+        .catch(err =>  this.getPendingPayments());
+  }
+  acceptPayment = (payment) => {
+    acceptPayment(payment)
+        .then(data => {
+            this.props.fetchUserBookings();
+            this.getPendingPayments();
+        })
+        .catch(err => this.getPendingPayments());
+  }
+
+  getPendingPayments() {
+    getPendingPayments()
+      .then(pendingPayments => {
+          console.log(pendingPayments)
+        this.setState({ pendingPayments });
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
-    // const { booking, errors, isFetching } = this.props.bookings;
-    // const { pendingPayments } = this.state;
+    const { bookings = {} } = this.props;
+    const { data = [] } = bookings;
+    const { pendingPayments=[]} = this.state
 
     return (
       <div className="page-container">
@@ -35,34 +70,14 @@ class ManageBooking extends Component {
           }}
         >
           <Header />
-          {/* <section id="userBookings">
-            <h4 className="page-title">My Bookings</h4>
-            <div className="row">{this.renderBookings(booking)}</div>
-            {!isFetching && errors.length === 0 && booking.length === 0 && (
-              <div className="alert alert-warning">
-                You have no bookings created go to rentals section and book your
-                place today.
-                <Link
-                  style={{ marginLeft: "10px" }}
-                  className="btn btn-bwm"
-                  to="/postings/"
-                >
-                  Available Rental
-                </Link>
-              </div>
-            )}
-          </section>
-          <section id="userPendingBookings">
-            <h1 className="page-title">My Pending Bookings</h1>
-            <div className="row">{this.renderPayments(pendingPayments)}</div>
-            {!isFetching &&
-              errors.length === 0 &&
-              pendingPayments.length === 0 && (
-                <div className="alert alert-warning">
-                  You have no pending bookings currently...
-                </div>
-              )}
-          </section> */}
+          <Container>
+            <h3 className="text-light">My Bookings</h3>
+            <Row>{this.renderBookings(data)}</Row>
+            { data.length === 0 && <h5 className="text-light">You have no bookings.</h5> }
+            <h3 className="text-light">My Pending Bookings</h3>
+            <Row>{this.renderPendingBookings(pendingPayments)}</Row>
+            { pendingPayments.length === 0 && <h5 className="text-light">You have no pending bookings.</h5> }
+          </Container>
           <Footer />
         </div>
       </div>
