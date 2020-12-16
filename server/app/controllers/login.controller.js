@@ -121,9 +121,12 @@ const authenticate = async (req, res) => {
       const token = jwt.sign(
         {
           userId: user.id,
-          username: user.username
-
-
+          username: user.username,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          phone: user.phone,  
+          emailId: user.email,
+          location: user.location
         },
         config.SECRET,
         { expiresIn: "1h" }
