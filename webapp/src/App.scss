@@ -159,3 +159,44 @@
     background-color: #e6e6e6;
     box-shadow: 0 0 6px 0 rgba($color: lightgrey, $alpha: 0.7);
 }
+.bwm-form {
+    color: #f5992a;
+    margin: 20px;
+    background-color: #e6e6e6;
+  
+    h1 {
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+  
+    label {
+      font-size: 12px;
+    }
+  
+    .form-text {
+      font-size: 13px;
+    }
+  
+    .catchphrase {
+      text-align: center;
+      font-size: 42px;
+      position: top;
+      color: #f1f1f1;
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin-top: 50px;
+      letter-spacing: 1px;
+    }
+  
+    .btn-form {
+      margin-top: 15px;
+    }
+  }
+  
+  .bwm-res-errors {
+    margin: 10px 0;
+  
+    p {
+      margin-bottom: 5px;
+    }
+  }
