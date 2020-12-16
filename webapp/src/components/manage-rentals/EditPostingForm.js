@@ -98,7 +98,7 @@ class EditPostingForm extends Component {
                       <Form.Label style={{fontSize:'25px', paddingLeft:'35%'}}> Edit Posting</Form.Label>
                       <Form.Group >
                         <Form.Label>Title</Form.Label>
-                        <Form.Control type="type" placeholder="" 
+                        <Form.Control type="text" placeholder="" 
                         onChange={(e) =>
                           this.setState({
                             title: e.target.value,
