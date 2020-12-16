@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Carousel } from "react-bootstrap";
-
+/**
+ * Visual additon for home page. Sliding the images on Homepage
+ */
 class ImageSlider extends Component {
     state = {  }
     render() { 

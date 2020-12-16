@@ -15,7 +15,7 @@ const getUser = async (id) =>{
     throw Error('Error while geting user');
   }
 }
-
+//get users by avoiding
 const getUser1 = async (id) =>{
   try{
     var user = await User.findById(id)
@@ -28,6 +28,7 @@ const getUser1 = async (id) =>{
   }
 }
 
+//search for one
 const findOne = async (email) =>{
   try{
     var user = await User.findOne({email}).exec();
@@ -37,11 +38,12 @@ const findOne = async (email) =>{
     throw Error('Error while geting user');
   }
 }
-
+//creating a new user
 const create = async (username, email, password) =>{
   return new User({username, email, password});
 }
 
+//find user by id
 const findID = async (id) =>{
   try{
     var user = await User.findById(id).exec();

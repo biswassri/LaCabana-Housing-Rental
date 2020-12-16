@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Cacher from "../../services/cacher";
-
+/**
+ * Used for detecting the location of each rental posting 
+ */
 class GoogleMap extends Component {
   constructor(props) {
     super(props);

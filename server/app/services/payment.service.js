@@ -4,6 +4,7 @@ import Booking from '../models/roombooking.model';
 import Posting from '../models/posting.model'
 import nodemailer from 'nodemailer';
 
+//Getting the pending payments for booking pending 
 const getPendingPayments = async(user)=>{
     console.log(user);
     try{
@@ -25,7 +26,7 @@ const getPendingPayments = async(user)=>{
     }
 
 }
-
+//to decline payment and cancel 
 const declinePayment = async(payment) => {
   
     try {
@@ -56,6 +57,7 @@ const declinePayment = async(payment) => {
   }
 }
 
+//to accept payment
 const confirmPayment = async(payment,user)=>{
     try{
         var foundPayment = await Payment.findById(payment._id)

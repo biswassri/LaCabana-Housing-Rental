@@ -7,6 +7,9 @@ import Footer from "./../footer";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { login, clearLoginErrors } from "../../actions/user.actions";
 
+/**
+ * Login page used by users
+ */
 class Login extends Component {
   state = {
     email : '',

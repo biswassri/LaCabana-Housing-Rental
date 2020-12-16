@@ -3,8 +3,10 @@ import errorHandler from '../handlers/errorhandler';
 import RoomBookingService from '../services/roomBooking.service';
 import RoomBooking from '../models/roombooking.model';
 
+//token amount 
 const CUSTOMER_SHARE = 0.8;
 
+//Getting all User Bookings
 const getUserBookings = async (req, res, next) => {
     try{
       console.log("Here");
@@ -33,6 +35,7 @@ const getUserBookings = async (req, res, next) => {
   }
 }
 
+//for creating Booking
 const createBooking = async (req, res, next) => {
     try{
       var booking = await RoomBookingService.createBooking(req,res);

@@ -8,7 +8,12 @@ import Header from "../nav";
 import GoogleMap from "../map-container/GoogleMap";
 import Booking from "../booking-container/booking";
 
+/**
+   * 
+  *  Details of Each Rental Postings
+   */
 class PostingDetail extends Component {
+  
   constructor(props) {
     super(props);
     this.imgRef = React.createRef();
