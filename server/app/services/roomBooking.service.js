@@ -1,21 +1,28 @@
-const moment = require("moment");
-const config = require("../config");
-const RoomBooking  = require("../models/roombooking.model");
-const Posting = require("../models/posting.model");
-const User = require("../models/user.model");
-const Payment = require("../models/payment.model");;
+import moment from  "moment";
+import config from "../config";
+import RoomBooking  from "../models/roombooking.model";
+import Posting from "../models/posting.model";
+import User from "../models/user.model";
+import Payment from "../models/payment.model";
 
 const getUserBooking = async(req,res) =>{
     const user = res.locals.user;
-    await RoomBooking.where({ user })
-    .populate("posting")
-    .exec((err, foundBookings) => {
-      if (err) {
+    console.log("here inseode");
+    console.log(user);
+    var bookings1 = user.bookings;
+    try{
+      var book = await RoomBooking.find({user : user}).exec();
+    // .populate({path : "posting", model: "Posting"})
+    // .exec();
+    if (book)
+      return book;
+    else return null; 
+  }
+  catch(err) {
        throw err; 
     }
-      return foundBookings;
-    });
 }
+
 const createBooking = async(req,res) => {
     const {
         startAt,
@@ -24,39 +31,66 @@ const createBooking = async(req,res) => {
         guests,
         days,
         rentalId,
-        paymentToken
+        paymentT
       } = req.body;
+      console.log("Long before");
       const user = res.locals.user;
-      const booking = new RoomBooking({
-        startAt,
-        endAt,
-        totalPrice,
-        days,
-        guests
+      const booking = await RoomBooking.create({
+        startAt : startAt,
+        endAt : endAt,
+        totalPrice : totalPrice,
+        days : days,
+        guests : guests
       });
-
-      await Posting.findById(rentalId)
-        .populate("bookings")
+      try{
+        var result = await Posting.findById(rentalId)
+        .populate({path : "bookings", model : "RoomBooking"})
         .populate("user")
-        .exec(async (err, result) => {
-          if (err) {
-            throw err;
+        .exec();
+        if (result.user.id === user.id) {
+          return "Invalid";
         }
-          if (result.user.id === user.id) {
-            return "Invalid";
-          }
-    
-          if (isValidBooking(booking, result)) {
+        console.log("Checkpoint");
+        if (isValidBooking(booking, result)) {
             booking.user = user;
+            var r = await Posting.updateOne({_id : rentalId},{$push : {bookings: booking}}).exec();
+            console.log(r);
             booking.posting = result;
-            result.bookings.push(booking);
-    
-            const { payment, err } = await createPayment(
-              booking,
-              result.user,
-              paymentToken
-            );
-    
+            console.log("Checkpt1");
+
+            const payment = await Payment.create({});
+            var paymentToken = { 
+              "id" : Math.random().toString(36).substring(7),
+              "object" : "token" 
+            };
+            // console.log(payment);
+            // console.log(user);
+            // console.log(result.user);
+            // console.log(paymentToken);
+            // console.log(booking);
+            // console.log(paymentToken.id);
+            var price =  booking.totalPrice*100*0.8;
+            // console.log(price);
+            var r = await Payment.updateOne({_id : payment._id},
+              {$set : {
+                fromUser: user,
+                toUser : result.user,
+                token : paymentToken,
+                booking : booking,
+                tokenId : paymentToken.id,
+                amount : price
+              }})
+              .exec();
+            
+            // payment.fromUser.push(user);
+            // payment.toUser.push(result.user);
+            // payment.token = paymentToken;
+            // payment.booking.push(booking);
+            // payment.tokenId=  paymentToken.id;
+            // payment.amount= booking.totalPrice * 100 * CUSTOMER_SHARE;
+            // payment.save();
+            // console.log(r);
+
             if (payment) {
               booking.payment = payment;
               await booking.save(err => {
@@ -65,19 +99,21 @@ const createBooking = async(req,res) => {
                 }
                 result.save();
                 User.updateOne(
-                  { _id: user.id },
-                  { $push: { bookings: booking } },
-                  () => {}
-                );
+                  { _id: user._id },
+                  { $push: { bookings: booking } }
+                ).exec();
                 return { startAt: booking.startAt, endAt: booking.endAt };
               });
             } else {
               return "Payment";
             }
-          } else {
-            return "Booking";
-          }
-        });
+      } else {
+        return "Booking";
+      }
+    }
+    catch(err){
+      throw err;
+    }
 }
 
 
@@ -91,29 +127,6 @@ function isValidBooking(proposedBooking, posting) {
       });
     }
     return true;
-  }
-  
-  async function createPayment(booking, toUser, token) {
-    const { user } = booking;
-    const tokenId = token.id || token;
-  
-    const id1 = Math.random().toString(36).substring(7);
-   
-      const payment = new Payment({
-        fromUser: user,
-        toUser,
-        fromStripeCustomerId: id1,
-        booking,
-        tokenId: token.id,
-        amount: booking.totalPrice * 100 * CUSTOMER_SHARE
-      });
-  
-      try {
-        const savedPayment = await payment.save();
-        return { payment: savedPayment };
-      } catch (error) {
-        throw error;
-      }
   }
   
 export default{

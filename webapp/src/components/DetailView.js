@@ -1,29 +1,32 @@
 import React, { Component } from "react";
 import Header from "./nav";
 import Footer from "./footer";
-import ImageSlider from "./detail-container/image-slider";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PostingCard from "./PostingCard";
+import { fetchRentals } from "../actions/rentallist.actions";
 
 class RoomDetails extends Component {
   state = {};
+  componentDidMount() {
+    this.props.fetchRentals();
+  }
+
+  renderList() {
+    
+    return this.props.rentals.map((rental) => {
+      return <PostingCard key={rental._id} rental={rental} />;
+    });
+  }
+
   render() {
     return (
       <div className="page-container">
         <div className="content-wrap">
           <Header />
-          <ImageSlider />
-
-          <div className="roomDetails">
-            <h1>Room Available - </h1>
-            <button className="btn btn-secondary" type="button">
-              Location
-            </button>
-            <h2>Unit 27, Boylston Street</h2>
-            <p>Minimum Stay</p>
-            <p>Value</p>
-            <p>Available Date</p>
-            <p>Value</p>
+          <div className="container">
+            <div className="row">{this.renderList()}</div>
           </div>
-
           <Footer />
         </div>
       </div>
@@ -31,4 +34,7 @@ class RoomDetails extends Component {
   }
 }
 
-export default RoomDetails;
+const mapStateToProps = (state) => {
+  return { rentals: state.rentals.data };
+};
+export default connect(mapStateToProps, { fetchRentals })(RoomDetails);

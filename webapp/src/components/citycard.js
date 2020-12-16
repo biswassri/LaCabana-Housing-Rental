@@ -31,7 +31,7 @@ class CityCards extends Component {
                                 <div className="flip-box-back text-center img-card" style={{backgroundImage: `url(${data.image})`}}>
                                     <div className="inner color-white">
                                         <h3 className="flip-box-header">{ data.name }</h3>
-                                        <Link to={`/room/${data.name}`} href={`/room/${data.name}`}><button className="flip-box-button">Search</button></Link>
+                                        <Link to={`/room`} href={`/room`}><button className="flip-box-button">Search</button></Link>
                                     </div>
                                 </div>
                             </div>

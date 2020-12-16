@@ -10,18 +10,21 @@ const getUser = async(req, res) => {
   console.log("Inside get user");
   const reqUserId = req.params.id;
   const user = res.locals.user;
-  console.log(user);
   if (reqUserId === user.id) {
     //display all
     try{
       var users =  await LoginService.getUser(reqUserId);
-      console.log(users);
       return res.status(200).json(users);
     }
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error getting user",
+                  detail: "Cant find user"
+                }
+              ] });
     }
     
   } else {
@@ -33,7 +36,12 @@ const getUser = async(req, res) => {
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error getting user",
+                  detail: "Cant find user"
+                }
+              ] });
     }
   }
 };
@@ -42,9 +50,9 @@ const update = async (req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
   let userData = req.body;
-  console.log(reqUserId);
-  console.log(user);
-  console.log(userData);
+  // console.log(reqUserId);
+  // console.log(user);
+  // console.log(userData);
   if (reqUserId !== user.id) {
     return res.status(422).send({
       errors: [
@@ -56,28 +64,33 @@ const update = async (req, res) => {
     });
   }
 
-  var u =  await LoginService.getUser(reqUserId)
-  console.log(u);
+  var u =  await LoginService.getUser(reqUserId);
   if (u){
-      await User.updateOne({ _id: u._id }, { $set: { 
+      try
+      { 
+        var use = await User.updateOne({ _id: u._id }, { $set: { 
         firstname : userData.firstname,
         lastname : userData.lastname,
         phone: userData.phone,
         email: userData.email,
         location : userData.location
-      } }, err => {
-        if (err) {
-          return res.status(422).send({ errors: errorHandler(err.errors) });
-        }
+      } });
+      if (use){     
+        return res.json(use);
+      }
+      }
+    catch (err) {
+          return res.status(422).send( {errors: [{ title: "Error", detail: err }]
+        });
+    }
         return res.json(u);
-      });
   }
   else{
     return res.status(422).send({
       errors: [
         {
-          title: "not found",
-          detail: "user not found"
+          title: "Not found",
+          detail: "User not found"
         }
       ]
     });
@@ -95,7 +108,6 @@ const authenticate = async (req, res) => {
   }
 
   var user = await LoginService.findOne(email);
-    console.log(user + " " + email);
     if (!user) {
       return res.status(422).send({
         errors: [{ title: "Data Invalid User", detail: "User doesn't exist!" }]
@@ -105,12 +117,15 @@ const authenticate = async (req, res) => {
       const token = jwt.sign(
         {
           userId: user.id,
-          username: user.username
-
-
+          username: user.username,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          phone: user.phone,  
+          emailId: user.email,
+          location: user.location
         },
         config.SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "24h" }
       );
       return res.json(token);
     } else {
@@ -142,7 +157,6 @@ const register = async (req, res) => {
 
   try {
     var exist = await LoginService.findOne(email);
-    console.log(exist);
     if (exist) {
       return res.status(422).send({
         errors: [
@@ -157,13 +171,23 @@ const register = async (req, res) => {
     catch(e){
       return res
               .status(422)
-              .send({ errors: errorHandler(e.message) });
+              .send({ errors: [
+                {
+                  title: "Error in creating",
+                  detail: e
+                }
+              ] });
   }
 
     const user = await LoginService.create(username, email, password);
     user.save(err => {
       if (err) {
-        return res.status(401).send({ errors: errorHandler(err.errors) });
+        return res.status(401).send({  errors: [
+          {
+            title: "Error in creating",
+            detail: err
+          }
+        ]  });
       }
 
       return res.json({ registered: true });
