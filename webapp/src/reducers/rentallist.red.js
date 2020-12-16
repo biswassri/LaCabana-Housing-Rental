@@ -1,7 +1,7 @@
 import {
-  FETCH_RENTALS_INIT, 
-  FETCH_RENTALS_SUCCESS, 
-  FETCH_RENTALS_FAIL, 
+  FETCH_RENTALS_INIT,
+  FETCH_RENTALS_SUCCESS,
+  FETCH_RENTALS_FAIL,
   FETCH_RENTAL_BY_ID_INIT,
   FETCH_RENTAL_BY_ID_SUCCESS,
   FETCH_RENTAL_BY_ID_FAIL,
@@ -31,24 +31,16 @@ export const rentalsReducer = (state = INITIAL_STATE.rentals, action) => {
       return state;
   }
 };
-export const singleRentalReducer = (state = INITIAL_STATE.rental, action) => {
+export const singleRentalReducer = (state = INITIAL_STATE.rentals, action) => {
   switch (action.type) {
     case FETCH_RENTAL_BY_ID_INIT: {
       return { ...state, data: {}, errors: [] };
     }
 
-    case UPDATE_RENTAL_INIT: {
-      return { ...state, errors: [], isUpdating: true };
-    }
-
     case FETCH_RENTAL_BY_ID_SUCCESS:
-    case UPDATE_RENTAL_SUCCESS: {
-      return { ...state, data: action.payload, isUpdating: false };
-    }
+
     case FETCH_RENTAL_BY_ID_FAIL:
-    case UPDATE_RENTAL_FAIL: {
-      return { ...state, errors: action.payload, isUpdating: false };
-    }
+
     default:
       return state;
   }

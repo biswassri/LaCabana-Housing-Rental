@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import PostingAmenities from "./amenities";
+import  RentalAssets from "./amenities";
 
 const PostingDetailInfo = ({ rental }) => {
   return (
@@ -34,7 +34,7 @@ const PostingDetailInfo = ({ rental }) => {
       </div>
       <p className="rental-description">{rental.description}</p>
       <hr />
-      <PostingAmenities />
+      <RentalAssets />
     </div>
   );
 };

@@ -5,6 +5,10 @@ import {
   FETCH_RENTALS_INIT,
   FETCH_RENTALS_SUCCESS,
   FETCH_RENTALS_FAIL,
+  FETCH_RENTAL_BY_ID_INIT,
+  FETCH_RENTAL_BY_ID_SUCCESS,
+  FETCH_RENTAL_BY_ID_FAIL
+
 } from "./type";
 
 function getErrorDescription(rejected) {
@@ -28,6 +32,7 @@ export const fetchRentals = city => {
             type: FETCH_RENTALS_FAIL,
             payload: getErrorDescription(rejected)
           });
+        
         });
     };
   };

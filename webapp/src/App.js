@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 
 import Register from './components/register/Register';
 import Home from './components/Home';
-import TenantView from './components/Tenants';
 import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
+import PostingDetail from './components/posting-container/posting';
 
 
 class App extends Component {
@@ -27,6 +27,15 @@ class App extends Component {
                 render={(props) => {
                   if(isLogin){
                     return <DetailList {...props}/>
+                  }else{
+                    return <Redirect to="/login"/>
+                  }
+                }} 
+              />
+              <Route exact path='/room/:city/:id' 
+                render={(props) => {
+                  if(isLogin){
+                    return <PostingDetail {...props}/>
                   }else{
                     return <Redirect to="/login"/>
                   }

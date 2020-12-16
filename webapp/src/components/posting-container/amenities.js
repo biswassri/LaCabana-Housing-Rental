@@ -1,6 +1,6 @@
 import React from "react";
 
-const RentalAssets = () => {
+const PostingAmenities= () => {
   return (
     <div className="rental-assets">
       <h3 className="title">Assets</h3>
@@ -32,4 +32,4 @@ const RentalAssets = () => {
   );
 };
 
-export default RentalAssets;
+export default PostingAmenities;
