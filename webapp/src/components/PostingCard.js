@@ -5,7 +5,7 @@ import { Card } from "react-bootstrap";
 const PostingCard = (props) => {
   const rental = props.rental;
   const city = props.city;
-  const cardLinkHref = `/room/${rental.city}/${rental._id}`;
+  const cardLinkHref = `/room/${rental._id}`;
 
   return (
     <div className="col-xs-6 col-md-4 rental-card">

@@ -1,5 +1,13 @@
 import axios from "axios";
+import axiosService from '../services/axios.service'
+
 import constants from "../utils/constants";
+import fetchRental from "./rentallist.actions";
+import {
+FETCH_USER_BOOKINGS_INIT,
+FETCH_USER_BOOKINGS_SUCCESS,
+FETCH_USER_BOOKINGS_FAIL 
+} from "./type";
 
 function getErrorDescription(rejected) {
     return rejected.response
@@ -15,5 +23,9 @@ export const register = userData => {
       );
   };
 
-
-  
+  export const createBooking = booking => {
+    return axiosService.getInstance()
+      .post(`${constants.BASE_URL_API}/bookings/`, booking)
+      .then(res => res.data)
+      .catch(rejected => Promise.reject(getErrorDescription(rejected)));
+  };

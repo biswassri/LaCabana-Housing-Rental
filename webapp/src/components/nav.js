@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { logout } from "../actions/user.actions";
-import { useHistory } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 
 import { MDBRow, MDBCol, MDBIcon, MDBNavLink } from "mdbreact";
+import Constants from "../utils/constants";
 
 class Header extends Component {
   state = {};
@@ -13,6 +14,7 @@ class Header extends Component {
     e.stopPropagation();
     e.preventDefault();
     this.props.logout();
+    this.props.history.push('/')
   };
   render() {
     const { user = {} } = this.props;
@@ -52,7 +54,7 @@ class Header extends Component {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/bookings/manage">Manage Bookings</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/user/profile">User Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">User Profile</NavDropdown.Item>
               </NavDropdown>
             ) : ""}
             {isLogin ? (
@@ -76,4 +78,4 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return { user: state.user };
 };
-export default connect(mapStateToProps, { logout })(Header);
+export default withRouter(connect(mapStateToProps, { logout })(Header));

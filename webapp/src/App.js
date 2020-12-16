@@ -8,10 +8,11 @@ import Home from './components/Home';
 import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
 import CreatePosting from './components/CreatePostinglForm';
-import UserProfile from './components/user';
+import UserProfile from './components/profile';
 import PostingDetail from './components/posting-container/posting';
 import ManageRentalView from './components/manage-rentals/ManageRentalView'
 import EditPostingForm from './components/manage-rentals/EditPostingForm';
+import ManageBooking from './components/managebooking';
 
 
 class App extends Component {
@@ -36,7 +37,8 @@ class App extends Component {
                   }
                 }} 
               />
-              <Route exact path='/room/:city' 
+              <Route exact path='/room/:city'/>
+              <Route exact path='/room' 
                 render={(props) => {
                   if(isLogin){
                     return <DetailList {...props}/>
@@ -45,12 +47,12 @@ class App extends Component {
                   }
                 }} 
               />
-
-              <Route exact path='/postings/new' component={CreatePosting} />
               <Route exact path='/user/:id' component={UserProfile} />
               <Route exact path='/rentals/:id' component={EditPostingForm} />
+              <Route exact path='/profile' component={UserProfile} />
+              <Route exact path='/bookings/manage' component={ManageBooking} />
 
-              <Route exact path='/room/:city/:id' 
+              <Route exact path='/room/:id' 
                 render={(props) => {
                   if(isLogin){
                     return <PostingDetail {...props}/>
