@@ -3,7 +3,9 @@ import {Modal} from "react-bootstrap";
 import { createBooking } from "../../actions";
 import ResError from "../shared/form/ResError";
 
-
+/**
+ * Confirmation booking modal for confirming that the user wants to book.
+ */
 class BookingModal extends Component {
   constructor(props) {
     super(props);

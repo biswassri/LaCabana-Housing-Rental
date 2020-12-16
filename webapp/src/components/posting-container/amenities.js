@@ -1,7 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { faAsterisk, faCube, faDesktop, faHandsWash, faLocationArrow, faSink, faThermometer, faTimes, faWalking } from '@fortawesome/free-solid-svg-icons'
+
+
+/**
+ * Amenities included in each Rental posting
+ */
 const PostingAmenities= () => {
   return (
     
