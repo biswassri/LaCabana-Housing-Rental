@@ -20,6 +20,10 @@ class CreatePosting extends Component {
     rate: 500,
     isSuccess: false,
   };
+
+  /**
+   * Function to hit s POST request to create a rental
+   */
   onSubmitRental = () => {
     let {
       title = '',

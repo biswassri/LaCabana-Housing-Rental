@@ -5,6 +5,9 @@ class VideoContainer extends Component {
   state = {};
   render() {
     return (
+      /**
+       * React PLayer video rendering componets
+       */
       <div
         className="video-background"
         style={{ backgroundImage: `url("assets/Bedroom.jpg")` }}

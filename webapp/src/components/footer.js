@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 class Footer extends Component {
     state = {  }
+    /**
+     * Bootstrap footer for app
+     */
     render() { 
         return ( 
             <div className="main-footer">

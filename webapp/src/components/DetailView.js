@@ -18,7 +18,9 @@ class RoomDetails extends Component {
       return <PostingCard key={rental._id} rental={rental} />;
     });
   }
-
+/**
+ * Rendering all posting cards
+ */
   render() {
     return (
       <div className="page-container">
