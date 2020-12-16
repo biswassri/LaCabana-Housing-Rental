@@ -107,7 +107,7 @@ const getbyCity = async(query) => {
       throw Error('Error while geting user');
     }
 };
-
+//exporting defaults
 export default {
     create: create,
     managePostings :managePostings,

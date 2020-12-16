@@ -5,6 +5,7 @@ import Posting from "../models/posting.model";
 import User from "../models/user.model";
 import Payment from "../models/payment.model";
 
+//get all the user bookings
 const getUserBooking = async(req,res) =>{
     const user = res.locals.user;
     console.log("here inseode");
@@ -23,6 +24,7 @@ const getUserBooking = async(req,res) =>{
     }
 }
 
+//create booking service
 const createBooking = async(req,res) => {
     const {
         startAt,
@@ -116,7 +118,7 @@ const createBooking = async(req,res) => {
     }
 }
 
-
+//Check the booking validity
 function isValidBooking(proposedBooking, posting) {
     if (posting.bookings && posting.bookings.length > 0) {
       return posting.bookings.every(booking => {
