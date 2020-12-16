@@ -10,6 +10,8 @@ import Login from './components/login-container/Login';
 import CreatePosting from './components/CreatePostinglForm';
 import UserProfile from './components/user';
 import PostingDetail from './components/posting-container/posting';
+import ManageRentalView from './components/manage-rentals/ManageRentalView'
+import EditPostingForm from './components/manage-rentals/EditPostingForm';
 
 
 class App extends Component {
@@ -25,6 +27,15 @@ class App extends Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/rentals/manage' 
+                render={(props) => {
+                  if(isLogin){
+                    return <ManageRentalView {...props}/>
+                  }else{
+                    return <Redirect to="/login"/>
+                  }
+                }} 
+              />
               <Route exact path='/room/:city' 
                 render={(props) => {
                   if(isLogin){
@@ -34,8 +45,10 @@ class App extends Component {
                   }
                 }} 
               />
+
               <Route exact path='/postings/new' component={CreatePosting} />
               <Route exact path='/user/:id' component={UserProfile} />
+              <Route exact path='/rentals/:id' component={EditPostingForm} />
 
               <Route exact path='/room/:city/:id' 
                 render={(props) => {

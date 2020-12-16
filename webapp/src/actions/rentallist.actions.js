@@ -67,10 +67,37 @@ export const fetchRentalByID = id => dispatch => {
       );
   };
 
-  export const updateRental = (id, rentalData) => dispatch => {
+  export const deleteRental = id => {
+    console.log("here in delete rental");
+    return axiosInstance
+      .delete(`${constants.BASE_URL_API}/postings/${id}`)
+      .then(
+        res => res.data,
+        rejected => Promise.reject(getErrorDescription(rejected))
+      );
+  };
+
+  export const fetchUserRentals = () => {
+    return dispatch => {
+      dispatch({ type: FETCH_RENTALS_INIT });
+      return axiosInstance
+        .get(`${constants.BASE_URL_API}/postings/manage`)
+        .then(response =>
+          dispatch({ type: FETCH_RENTALS_SUCCESS, payload: response.data })
+        )
+        .catch(rejected =>
+          dispatch({
+            type: FETCH_RENTALS_FAIL,
+            payload: getErrorDescription(rejected)
+          })
+        );
+    };
+  };
+
+  export const updateRental = (id, ...rentalData) => dispatch => {
     dispatch({ type: UPDATE_RENTAL_INIT });
     return axios
-      .patch(`/rentals/${id}`, rentalData)
+      .patch(`/postings/${id}`, ...rentalData)
       .then(response =>
         dispatch({ type: UPDATE_RENTAL_SUCCESS, payload: response.data })
       )

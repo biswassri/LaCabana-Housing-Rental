@@ -18,11 +18,9 @@ const getUser = async (id) =>{
 
 const getUser1 = async (id) =>{
   try{
-    console.log(id);
     var user = await User.findById(id)
     .select("-password -rentals -bookings -balance")
     .exec();
-    console.log(user);
     return user;
   }
   catch(e){
@@ -31,10 +29,8 @@ const getUser1 = async (id) =>{
 }
 
 const findOne = async (email) =>{
-  console.log(email);
   try{
     var user = await User.findOne({email}).exec();
-    console.log(user);
     return user;
   }
   catch(e){
@@ -47,10 +43,8 @@ const create = async (username, email, password) =>{
 }
 
 const findID = async (id) =>{
-  console.log(id);
   try{
     var user = await User.findById(id).exec();
-    console.log(user);
     return user;
   }
   catch(e){

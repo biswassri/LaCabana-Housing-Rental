@@ -51,8 +51,6 @@ const managePostings = async(user) => {
      var p = await Posting.find({ user : { _id : user._id}})
       .populate("bookings")
       .exec();
-    console.log(p);
-
     if(p) 
       return p;
     else 
@@ -62,19 +60,19 @@ const managePostings = async(user) => {
 
 const remove = async(id, res) => {
     const user = res.locals.user;
-    try{
-      var result = await Posting.findById(rentalId)
-        .populate("user", "_id")
-        .populate({
-            path: "bookings",
+      var result = await Posting.findOne({_id : id})
+       .populate("user", "_id")
+         .populate({
+         path: "bookings",
             select: "endAt",
             match: { endAt: { $gt: new Date() } }
-    })
-    .exec();
-    if (user.id !== result.user.id) {
-      return "Invalid";
-    }
-
+    });
+  //  .then((result) => console.log(result))
+   // .exec();
+    // if (user.id !== result.user.id) {
+    //   return "Invalid";
+    // }
+  
     if (result.bookings.length > 0) {
       return "Present";
     }
@@ -84,19 +82,13 @@ const remove = async(id, res) => {
       }
     });
     return "Success";
-  }
-  catch(err){
-    return "err";
-  }
 }
 const getByPostingID = async(id) => {
-  console.log(id);
     var p = await Posting.findById(id)
     .populate("user")
     .populate( {path : "bookings" , model : "RoomBooking"})
     .exec();
     console.log("Here in service");
-    console.log(p);
     if(p){
       return p;
     }
@@ -106,11 +98,9 @@ const getByPostingID = async(id) => {
 const getbyCity = async(query) => {
     console.log("here in get city");
     try {
-        console.log(query);
         var p = await Posting.find(query)
       .select("-bookings")
       .exec();
-      console.log(p);
       return p;
     }
     catch(e){

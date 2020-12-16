@@ -1,6 +1,5 @@
 import axios from "axios";
 import constants from "../utils/constants";
-import fetchRental from ".//rentallist.actions";
 
 function getErrorDescription(rejected) {
     return rejected.response
