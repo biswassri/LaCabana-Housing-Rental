@@ -37,7 +37,6 @@ class App extends Component {
                   }
                 }} 
               />
-              <Route exact path='/room/:city'/>
               <Route exact path='/room' 
                 render={(props) => {
                   if(isLogin){
