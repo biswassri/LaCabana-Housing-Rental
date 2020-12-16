@@ -4,8 +4,8 @@ import LoginController from '../controllers/login.controller'
 const postingRouter = express.Router();
 
 /**
- * Search - GET /getAllPostings/
- * Create - POST /create/
+ * Search - GET /
+ * Create - POST /
  */
 //router.route('/').get(LoginController.getAllUsers);
 postingRouter.route('/secret').get(LoginController.authMiddleware, PostingController.secret);

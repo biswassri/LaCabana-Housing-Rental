@@ -4,6 +4,8 @@ import Booking from "./models/roombooking.model";
 import Payment from "./models/payment.model";
 import fakeDbData from "../data.json";
 
+
+//This is to initialize the application with test data
 class FakeDb {
   constructor() {
     this.postings = fakeDbData.postings;

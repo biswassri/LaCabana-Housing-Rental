@@ -5,13 +5,14 @@ import config from "../config";
 import LoginService from '../services/login.service'
 import { async } from "regenerator-runtime";
 
+//Login Controller
 
+//Get all users
 const getUser = async(req, res) => {
   console.log("Inside get user");
   const reqUserId = req.params.id;
   const user = res.locals.user;
   if (reqUserId === user.id) {
-    //display all
     try{
       var users =  await LoginService.getUser(reqUserId);
       return res.status(200).json(users);
@@ -46,6 +47,7 @@ const getUser = async(req, res) => {
   }
 };
 
+//Updating the user details
 const update = async (req, res) => {
   const reqUserId = req.params.id;
   const user = res.locals.user;
@@ -68,6 +70,7 @@ const update = async (req, res) => {
   if (u){
       try
       { 
+        //updating values
         var use = await User.updateOne({ _id: u._id }, { $set: { 
         firstname : userData.firstname,
         lastname : userData.lastname,
@@ -98,6 +101,7 @@ const update = async (req, res) => {
   }
 };
 
+//For authentication purpose called in login
 const authenticate = async (req, res) => {
   const { email, password } = req.body;
 
@@ -114,6 +118,7 @@ const authenticate = async (req, res) => {
       });
     }
     if (user.hasSamePassword(password)) {
+      //jwt token for authentication
       const token = jwt.sign(
         {
           userId: user.id,
@@ -135,6 +140,7 @@ const authenticate = async (req, res) => {
     }
 };
 
+//register (create) user
 const register = async (req, res) => {
   const { username, email, password, passwordConfirmation } = req.body;
   
@@ -156,6 +162,7 @@ const register = async (req, res) => {
   }
 
   try {
+    //checking for duplicates
     var exist = await LoginService.findOne(email);
     if (exist) {
       return res.status(422).send({
@@ -194,6 +201,7 @@ const register = async (req, res) => {
     });
 };
 
+//for the middleware authorization
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
@@ -208,7 +216,7 @@ const authMiddleware = (req, res, next) => {
           ]
         });
       }
-
+      //finding user by id
       User.findById(user.userId, (err, user) => {
         if (err) {
           return notAuthorized(res);
@@ -240,7 +248,7 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-
+//exporting default
 export default{
   authMiddleware,
   update,
