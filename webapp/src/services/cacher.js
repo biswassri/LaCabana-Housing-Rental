@@ -1,4 +1,4 @@
-import camelCase from "camel-case";
+import camelCase from "camelcase";
 
 let instance;
 
