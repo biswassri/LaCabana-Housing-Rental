@@ -15,6 +15,10 @@ class CityCards extends Component {
         { name: 'Sydney', image: '/assets/citycard/Sydney.jpg'},
     ] }
     render() { 
+
+        /**
+         * City card on Landing page to create flip box
+         */
         const { cities = []} = this.state
         return ( 
         <div className="container">

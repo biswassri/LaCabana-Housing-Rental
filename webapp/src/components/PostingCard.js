@@ -8,6 +8,9 @@ const PostingCard = (props) => {
   const cardLinkHref = `/room/${rental._id}`;
 
   return (
+    /**
+     * Card for each posting
+     */
     <div className="col-xs-6 col-md-4 rental-card">
       <Card style={{ width: "18rem" }}>
         <Card.Link href={cardLinkHref}>

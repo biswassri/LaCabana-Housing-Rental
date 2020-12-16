@@ -37,6 +37,9 @@ class UserProfile extends Component {
     }
   }
 
+  /**
+   * Function to get user based on token
+   */
   getUserDetails(userId) {
     const { userDetails } = this.state;
     getUserDetails(userId).then(
