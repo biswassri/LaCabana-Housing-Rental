@@ -69,7 +69,7 @@ class Booking extends Component {
   confirmReservation() {
     this.setState({ openModal: true });
   }
-  closeConfirmation() {
+   closeConfirmation() {
     this.setState({ openModal: false });
     this.resetData();
   }
@@ -86,11 +86,12 @@ class Booking extends Component {
   }
 
   render() {
-      console.log("THISSSS", this.props)
+      
     const { rental, isAuth } = this.props;
    
     const { startAt, endAt, guests, openModal } = this.state;
     const days = getRangeOfDates(startAt, endAt).length - 1;
+    console.log(rental);
     const totalPrice = 100;
     return (
       <div className="booking">
@@ -108,14 +109,14 @@ class Booking extends Component {
           </Link>
         )}
         {isAuth && (
-          <React.Fragment>
+          <div>
             <div className="form-group">
               <label htmlFor="dates">Dates</label>
               <DateRangePicker
                 onApply={this.handleApply}
-                isInvalidDate={this.checkInvalidDate}
-                opens="right"
-                containerStyles={{ display: "block" }}
+                // isInvalidDate={this.checkInvalidDate}
+                // opens="right"
+                // containerStyles={{ display: "block" }}
               >
                 <input
                   id="dates"
@@ -143,7 +144,7 @@ class Booking extends Component {
             >
               Reserve place now
             </button>
-          </React.Fragment>
+          </div>
         )}
         <hr />
         <p className="booking-note-title">
@@ -157,6 +158,7 @@ class Booking extends Component {
           endAt={endAt}
           days={days}
           guests={guests}
+          dailyRate={rental.dailyRate}
         totalPrice={totalPrice}
           rentalId={rental.id}
           open={openModal}
