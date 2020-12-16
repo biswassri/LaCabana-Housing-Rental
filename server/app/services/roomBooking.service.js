@@ -10,12 +10,10 @@ const getUserBooking = async(req,res) =>{
     console.log("here inseode");
     console.log(user);
     var bookings1 = user.bookings;
-    console.log(bookings);
     try{
       var book = await RoomBooking.find({user : user}).exec();
     // .populate({path : "posting", model: "Posting"})
     // .exec();
-    console.log(book);
     if (book)
       return book;
     else return null; 
@@ -35,7 +33,6 @@ const createBooking = async(req,res) => {
         rentalId,
         paymentT
       } = req.body;
-      console.log(req.body);
       console.log("Long before");
       const user = res.locals.user;
       const booking = await RoomBooking.create({
@@ -45,14 +42,11 @@ const createBooking = async(req,res) => {
         days : days,
         guests : guests
       });
-      console.log("Before");
-      console.log(booking);
       try{
         var result = await Posting.findById(rentalId)
         .populate({path : "bookings", model : "RoomBooking"})
         .populate("user")
         .exec();
-        console.log(result);
         if (result.user.id === user.id) {
           return "Invalid";
         }
@@ -60,7 +54,6 @@ const createBooking = async(req,res) => {
         if (isValidBooking(booking, result)) {
             booking.user = user;
             var r = await Posting.updateOne({_id : rentalId},{$push : {bookings: booking}}).exec();
-            console.log(result);
             console.log(r);
             booking.posting = result;
             console.log("Checkpt1");
@@ -70,14 +63,14 @@ const createBooking = async(req,res) => {
               "id" : Math.random().toString(36).substring(7),
               "object" : "token" 
             };
-            console.log(payment);
-            console.log(user);
-            console.log(result.user);
-            console.log(paymentToken);
-            console.log(booking);
-            console.log(paymentToken.id);
+            // console.log(payment);
+            // console.log(user);
+            // console.log(result.user);
+            // console.log(paymentToken);
+            // console.log(booking);
+            // console.log(paymentToken.id);
             var price =  booking.totalPrice*100*0.8;
-            console.log(price);
+            // console.log(price);
             var r = await Payment.updateOne({_id : payment._id},
               {$set : {
                 fromUser: user,
@@ -96,7 +89,7 @@ const createBooking = async(req,res) => {
             // payment.tokenId=  paymentToken.id;
             // payment.amount= booking.totalPrice * 100 * CUSTOMER_SHARE;
             // payment.save();
-            console.log(r);
+            // console.log(r);
 
             if (payment) {
               booking.payment = payment;

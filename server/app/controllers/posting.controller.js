@@ -29,7 +29,6 @@ const getByPostingID = async (req, res, next) => {
     try {
       console.log("here in getbyid");
         var p = await postingService.getByPostingID(rentalId);
-        console.log(p);
         if(!p){
             console.log("Inside p");
           return res.status(422).send({
@@ -53,9 +52,7 @@ const managePostings= async (req,res,next) =>{
 
     const user = res.locals.user;
     try{
-        console.log(user);
         var p = await postingService.managePostings(user);
-        console.log(p);
         if(p){
          return res.json(p);
         }
@@ -74,6 +71,7 @@ const managePostings= async (req,res,next) =>{
 //This gets the specific item based on the id from the database and updates it with the new values.
 const update = async (request,response,next) => {
     const id = request.params.id;
+    console.log("Update");
     try{
         var posting = await postingService.update(id, request.body, response);
 
@@ -100,28 +98,28 @@ const update = async (request,response,next) => {
 //This gets the specific item based on the id from the database and deletes it.
 const remove = async (request,response,next) => {
     const id = request.params.id;
-    try{var posting = postingService.remove(id, response);
-    if (!posting) {
-        response.status(422).send({
-          errors: [{ title: "Postings Error", detail: "Could not find Postings" }]
-        });
-      }
+    try{var posting =  await postingService.remove(id, response);
+      if (!posting) {
+          response.status(422).send({
+            errors: [{ title: "Postings Error", detail: "Could not find Postings" }]
+          });
+        }
 
-    if (posting == "err") {
+    if (posting == "err" || posting == undefined) {
         response.status(422).send({
           errors: [{ title: "Postings Error", detail: "Could not delete Postings" }]
         });
       }
             
     if(posting == "Invalid"){
-        res.status(422).send({
+      response.status(422).send({
             errors: [
               { title: "Invalid User", detail: "You are not Posting owner" }
             ]
         });
     }
     if(posting == "Present"){
-        res.status(422).send({
+      response.status(422).send({
             errors: [
               {
                 title: "Active bookings!",
@@ -130,12 +128,18 @@ const remove = async (request,response,next) => {
             ]
           });
     }
+
     response.status(200).json({
         message: "Deleted Succesfully"
     });
   }
   catch(err) {
-    return res.status(422).send({ errors: errorHandler(err.errors) });
+    return response.status(422).send({ errors:  [
+      {
+        title: "Error in deleting bookings!",
+        detail: "Cannot delete rental "
+      }
+    ]});
   }
 }
 
@@ -146,7 +150,6 @@ const getbyCity = async(req, res) => {
     const query = city ? { city: city } : {};
     try{
         var foundRentals = await postingService.getbyCity(query);
-    console.log(foundRentals);
     if (foundRentals){
         if (city && foundRentals.length === 0) {
           return res.status(422).send({

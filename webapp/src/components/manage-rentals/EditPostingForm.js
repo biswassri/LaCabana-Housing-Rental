@@ -1,16 +1,20 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import Header from "./nav";
-import Footer from "./footer";
+import Header from "../nav";
+import Footer from "../footer";
 import { Container, Row, Col, Form, Button, Alert, InputGroup, FormControl } from "react-bootstrap";
 
-import { createRental, fetchRentals} from "../actions/rentallist.actions";
+import { updateRental, fetchRentalByID} from "../../actions/rentallist.actions";
 
 import { Redirect } from "react-router";
 
-class CreatePosting extends Component {
+class EditPostingForm extends Component {
+  constructor(props){
+    super(props);
+  } 
   state = {
+    postingDetails : {},
     title : '',
     description: '',
     city: '',
@@ -20,33 +24,66 @@ class CreatePosting extends Component {
     rate: 500,
     isSuccess: false,
   };
+
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id) {
+      this.fetchRentalDetails(id);
+    }
+  }
+
+  fetchRentalDetails=(rentalId) =>{
+    const { postingDetails } = this.state;
+    this.props.fetchRentalByID(rentalId).then(
+      (details) => {
+  //      console.log(details);
+        this.setState({
+          postingDetails: details.data,
+        });
+      },
+      (err) => console.error(err)
+    );
+  }
+
   onSubmitRental = () => {
     let {
+      id = '',
       title = '',
       description = '',
       city = '',
       street = '',
       category = 'apartment',
-      bedroom = 1,
-      rate = 0,
-    } = this.state;
+      bedrooms = 1,
+      dailyRate = 0,
+    } = this.state.postingDetails;
     try{
-      bedroom = parseInt(bedroom);
-      rate = parseInt(rate);
+      bedrooms = parseInt(bedrooms);
+      dailyRate = parseInt(dailyRate);
     }
     catch(e){
 
     }
-    createRental({title, description, city, street, category, bedrooms : bedroom, dailyRate : rate})
-    this.setState({
-      isSuccess : true
-    })
-    this.props.fetchRentals()
+    updateRental(id,{id, title, description, city, street, category, bedrooms , dailyRate }).then(
+      (details) => alert("Data has been successfuly updated!"),
+      (err) => {
+        console.error(err);
+      }
+    );
   }
   render() { 
-    const { title, description, city, street, category, bedroom, rate, isSuccess } = this.state
+
+    // console.log(this.state);
+    // console.log("-----------");
+    // console.log(this.props);
+
+    // console.log("-----------");
+    // console.log(this.state.postingDetails);
+
+    // console.log("-----------");
+    let { postingDetails } = this.state
+    let { title = '', description = '', city = '', street = '', category = '', bedrooms = '', dailyRate ='', isSuccess } = postingDetails;
     if (isSuccess) {
-      return <Redirect to={`/room/`} />;
+      return <Redirect to={`/room/${city}`} />;
     }
     return ( 
       <div className="page-container">
@@ -59,13 +96,16 @@ class CreatePosting extends Component {
                 <Col lg={6} md={6} sm={12} className="p-5 m-auto">
                   <div className="CreateRentalBox p-2">
                     <Form >
+                      <Form.Label style={{fontSize:'25px', paddingLeft:'35%'}}> Edit Posting</Form.Label>
                       <Form.Group >
                         <Form.Label>Title</Form.Label>
                         <Form.Control type="text" placeholder="" 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.title = e.target.value
                           this.setState({
-                            title: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={title}
                         />
@@ -73,10 +113,12 @@ class CreatePosting extends Component {
                       <Form.Group controlId="exampleForm.ControlTextarea1" className="mt-3">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows={3} 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.description = e.target.value
                           this.setState({
-                            description: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={description}
                         />
@@ -84,10 +126,12 @@ class CreatePosting extends Component {
                       <Form.Group className="mt-3" controlId="formGridCity" >
                         <Form.Label>City</Form.Label>
                         <Form.Control 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.city = e.target.value
                           this.setState({
-                            city: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={city}
                         />
@@ -95,10 +139,12 @@ class CreatePosting extends Component {
                       <Form.Group className="mt-3" controlId="formGridStreet">
                         <Form.Label>Street</Form.Label>
                         <Form.Control 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.street = e.target.value
                           this.setState({
-                            street: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={street}
                         />
@@ -106,10 +152,12 @@ class CreatePosting extends Component {
                       <Form.Group className="mt-3" controlId="formGridApartment">
                         <Form.Label>Category</Form.Label>
                         <Form.Control as="select"
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.category = e.target.value
                           this.setState({
-                            category: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={category}
                         >
@@ -121,12 +169,14 @@ class CreatePosting extends Component {
                       <Form.Group controlId="exampleForm.SelectCustom">
                       <Form.Label>Bedrooms</Form.Label>
                         <Form.Control as="select" type="number" custom 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.bedrooms = e.target.value
                           this.setState({
-                            bedroom: e.target.value,
+                            postingDetails
                           })
                         }
-                        value={bedroom}>
+                        }
+                        value={bedrooms}>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -141,12 +191,14 @@ class CreatePosting extends Component {
                           <InputGroup.Text>@</InputGroup.Text>
                           </InputGroup.Prepend>
                           <FormControl id="inlineFormInputGroup" type="number" placeholder="USD" 
-                           onChange={(e) =>
+                          onChange={(e) =>{
+                            postingDetails.dailyRate = e.target.value
                             this.setState({
-                              rate: e.target.value,
+                              postingDetails
                             })
                           }
-                          value={rate}
+                          }
+                          value={dailyRate}
                           />
                           </InputGroup>
                       </Form.Group>
@@ -159,7 +211,7 @@ class CreatePosting extends Component {
                           />
                       </Form.Group>
                       <Button className="btn-block btn-secondary" onClick={this.onSubmitRental}>
-                        Submit Rental
+                        Save
                       </Button>
                     </Form>
                   </div>
@@ -175,6 +227,9 @@ class CreatePosting extends Component {
 }
  
 const mapStateToProps = (state) => {
-  return {  user : state.state};
+  return {  
+    user : state.state,
+    rental : state.rentals.data
+  };
 };
-export default connect(mapStateToProps, {fetchRentals})(CreatePosting);
+export default connect(mapStateToProps, {fetchRentalByID})(EditPostingForm);

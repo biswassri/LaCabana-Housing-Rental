@@ -11,7 +11,6 @@ const getUserBookings = async (req, res, next) => {
       const user = res.locals.user;
       var booking =  await RoomBooking.find({user : user}).exec();
       console.log("Back to cont");
-      console.log(booking);
       if(booking) return res.json(booking)
       else return res.sendStatus(422).send({ 
         errors: [

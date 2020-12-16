@@ -10,12 +10,10 @@ const getUser = async(req, res) => {
   console.log("Inside get user");
   const reqUserId = req.params.id;
   const user = res.locals.user;
-  console.log(user);
   if (reqUserId === user.id) {
     //display all
     try{
       var users =  await LoginService.getUser(reqUserId);
-      console.log(users);
       return res.status(200).json(users);
     }
     catch(e){
@@ -67,7 +65,6 @@ const update = async (req, res) => {
   }
 
   var u =  await LoginService.getUser(reqUserId);
-  console.log(u);
   if (u){
       try
       { 
@@ -111,7 +108,6 @@ const authenticate = async (req, res) => {
   }
 
   var user = await LoginService.findOne(email);
-    console.log(user + " " + email);
     if (!user) {
       return res.status(422).send({
         errors: [{ title: "Data Invalid User", detail: "User doesn't exist!" }]
@@ -129,7 +125,7 @@ const authenticate = async (req, res) => {
           location: user.location
         },
         config.SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "24h" }
       );
       return res.json(token);
     } else {
@@ -161,7 +157,6 @@ const register = async (req, res) => {
 
   try {
     var exist = await LoginService.findOne(email);
-    console.log(exist);
     if (exist) {
       return res.status(422).send({
         errors: [
