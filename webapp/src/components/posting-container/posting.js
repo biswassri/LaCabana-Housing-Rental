@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { fetchRentalByID, getReviews } from "../../actions/rentallist.actions";
 import PostingDetailInfo from "./postingDetails";
 import RentalDetailUpdate from "./postingUpdate";
+import Header from "../nav";
 import GoogleMap from "../map/GoogleMap";
 class PostingDetail extends Component {
   constructor(props) {
@@ -44,10 +45,16 @@ class PostingDetail extends Component {
       return <div>Loading...</div>;
     }
     return (
+      <div>
+        <Header/>
+        <br></br>
       <div className="container" id="rentalDetails">
+      
         <ToastContainer />
+        
         <div className="upper-section">
           <div className="row">
+          
             <div className="col-md-6">
               <img
                 ref={this.imgRef}
@@ -69,6 +76,7 @@ class PostingDetail extends Component {
         <div className="details-section">
           <div className="row">{this.renderRentalDetail(rental)}</div>
         </div>
+      </div>
       </div>
     );
   }
