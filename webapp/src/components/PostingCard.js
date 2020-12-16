@@ -4,10 +4,13 @@ import { Card } from "react-bootstrap";
 
 const PostingCard = (props) => {
   const rental = props.rental;
+  const city = props.city;
+  const cardLinkHref = `/room/${rental.city}/${rental._id}`;
+
   return (
     <div className="col-xs-6 col-md-4 rental-card">
       <Card style={{ width: "18rem" }}>
-        <Card.Link to >
+        <Card.Link href={cardLinkHref}>
           <Card.Img variant="top" src="/assets/Bedroom.jpg" />
           <Card.Body>
             <Card.Title className="color-card">{rental.title}</Card.Title>

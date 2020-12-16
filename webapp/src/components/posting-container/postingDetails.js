@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import PostingAmenities from "./amenities";
+import  RentalAssets from "./amenities";
 
 const PostingDetailInfo = ({ rental }) => {
-  return (
+  console.log(rental);
+   return (
     <div className="rental">
       <div className="d-flex justify-content-between">
         <h2 className={`rental-type ${rental.category}`}>
@@ -34,12 +35,9 @@ const PostingDetailInfo = ({ rental }) => {
       </div>
       <p className="rental-description">{rental.description}</p>
       <hr />
-      <PostingAmenities />
+      <RentalAssets />
     </div>
   );
 };
 
-const mapStateToProps = state => {
-  return { rental: state.rental.data };
-};
-export default connect(mapStateToProps)(PostingDetailInfo);
+export default PostingDetailInfo;
