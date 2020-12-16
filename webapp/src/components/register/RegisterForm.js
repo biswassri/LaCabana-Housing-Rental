@@ -2,7 +2,9 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import FormInput from "../shared/form/FormInput";
 import ResError from "../shared/form/ResError";
-
+/**
+ * Registeration form used in the registration page for Users
+ */
 const RegisterForm = props => {
   const { handleSubmit, pristine, submitting, submitCb, valid, errors } = props;
   return (
