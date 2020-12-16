@@ -58,7 +58,7 @@ class Booking extends Component {
     const startAt = dateToUTC(sStartDate);
     const endAt = dateToUTC(sEndDate);
 
-    this.dateRef.current.value = `${sStartDate} to ${sEndDate}`;
+    //this.dateRef.current.value = `${sStartDate}to${sEndDate}`;
 
     this.setState({ startAt, endAt });
   }
@@ -74,7 +74,7 @@ class Booking extends Component {
     this.resetData();
   }
   resetData() {
-    this.dateRef.current.value = "";
+   // this.dateRef.current.value = "";
     this.setState({ starttAt: "", endAt: "", guests: "" });
   }
   onSuccessfulBooking() {
@@ -86,8 +86,9 @@ class Booking extends Component {
   }
 
   render() {
+      console.log("THISSSS", this.props)
     const { rental, isAuth } = this.props;
-    console.log( " RENTALSS",  rental);
+   
     const { startAt, endAt, guests, openModal } = this.state;
     const days = getRangeOfDates(startAt, endAt).length - 1;
     const totalPrice = 100;
@@ -113,11 +114,10 @@ class Booking extends Component {
               <DateRangePicker
                 onApply={this.handleApply}
                 isInvalidDate={this.checkInvalidDate}
-                opens="left"
+                opens="right"
                 containerStyles={{ display: "block" }}
               >
                 <input
-                  ref={this.dateRef}
                   id="dates"
                   type="text"
                   className="form-control"
@@ -157,7 +157,7 @@ class Booking extends Component {
           endAt={endAt}
           days={days}
           guests={guests}
-         totalPrice={totalPrice}
+        totalPrice={totalPrice}
           rentalId={rental.id}
           open={openModal}
           closeModal={this.closeConfirmation}
@@ -172,6 +172,7 @@ const mapStateToProps = state => {
    
   return {
     rentals: state.rentals.data,
+    isAuth: state.user.isLogin
    
   };
 };
