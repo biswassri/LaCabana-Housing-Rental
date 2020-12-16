@@ -34,6 +34,7 @@ class App extends Component {
                 }} 
               />
               <Route exact path='/postings/new' component={CreatePosting} />
+              <Route exact path='/user/:id' component={UserProfile} />
               {/* Add additional routes above*/}
               {/* Handled routes which aren't registered and direct it to home*/}
               <Route path="*" >
