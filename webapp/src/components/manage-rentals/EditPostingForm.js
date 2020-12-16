@@ -14,7 +14,7 @@ class EditPostingForm extends Component {
     super(props);
   } 
   state = {
-    postingDetails : '',
+    postingDetails : {},
     title : '',
     description: '',
     city: '',
@@ -47,23 +47,23 @@ class EditPostingForm extends Component {
 
   onSubmitRental = () => {
     let {
-      rentalId = '',
+      id = '',
       title = '',
       description = '',
       city = '',
       street = '',
       category = 'apartment',
-      bedroom = 1,
-      rate = 0,
-    } = this.state;
+      bedrooms = 1,
+      dailyRate = 0,
+    } = this.state.postingDetails;
     try{
-      bedroom = parseInt(bedroom);
-      rate = parseInt(rate);
+      bedrooms = parseInt(bedrooms);
+      dailyRate = parseInt(dailyRate);
     }
     catch(e){
 
     }
-    updateRental({rentalId, title, description, city, street, category, bedrooms : bedroom, dailyRate : rate}).then(
+    updateRental(id,{id, title, description, city, street, category, bedrooms , dailyRate }).then(
       (details) => alert("Data has been successfuly updated!"),
       (err) => {
         console.error(err);
@@ -72,15 +72,16 @@ class EditPostingForm extends Component {
   }
   render() { 
 
-    console.log(this.state);
-    console.log("-----------");
-    console.log(this.props);
+    // console.log(this.state);
+    // console.log("-----------");
+    // console.log(this.props);
 
-    console.log("-----------");
-    console.log(this.state.postingDetails);
+    // console.log("-----------");
+    // console.log(this.state.postingDetails);
 
-    console.log("-----------");
-    const { title = '', description = '', city = '', street = '', category = '', bedroom = '', rate ='', isSuccess } = this.state.postingDetails;
+    // console.log("-----------");
+    let { postingDetails } = this.state
+    let { title = '', description = '', city = '', street = '', category = '', bedrooms = '', dailyRate ='', isSuccess } = postingDetails;
     if (isSuccess) {
       return <Redirect to={`/room/${city}`} />;
     }
@@ -99,10 +100,12 @@ class EditPostingForm extends Component {
                       <Form.Group >
                         <Form.Label>Title</Form.Label>
                         <Form.Control type="text" placeholder="" 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.title = e.target.value
                           this.setState({
-                            title: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={title}
                         />
@@ -110,10 +113,12 @@ class EditPostingForm extends Component {
                       <Form.Group controlId="exampleForm.ControlTextarea1" className="mt-3">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows={3} 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.description = e.target.value
                           this.setState({
-                            description: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={description}
                         />
@@ -121,10 +126,12 @@ class EditPostingForm extends Component {
                       <Form.Group className="mt-3" controlId="formGridCity" >
                         <Form.Label>City</Form.Label>
                         <Form.Control 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.city = e.target.value
                           this.setState({
-                            city: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={city}
                         />
@@ -132,10 +139,12 @@ class EditPostingForm extends Component {
                       <Form.Group className="mt-3" controlId="formGridStreet">
                         <Form.Label>Street</Form.Label>
                         <Form.Control 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.street = e.target.value
                           this.setState({
-                            street: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={street}
                         />
@@ -143,10 +152,12 @@ class EditPostingForm extends Component {
                       <Form.Group className="mt-3" controlId="formGridApartment">
                         <Form.Label>Category</Form.Label>
                         <Form.Control as="select"
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.category = e.target.value
                           this.setState({
-                            category: e.target.value,
+                            postingDetails
                           })
+                        }
                         }
                         value={category}
                         >
@@ -158,12 +169,14 @@ class EditPostingForm extends Component {
                       <Form.Group controlId="exampleForm.SelectCustom">
                       <Form.Label>Bedrooms</Form.Label>
                         <Form.Control as="select" type="number" custom 
-                        onChange={(e) =>
+                        onChange={(e) =>{
+                          postingDetails.bedrooms = e.target.value
                           this.setState({
-                            bedroom: e.target.value,
+                            postingDetails
                           })
                         }
-                        value={bedroom}>
+                        }
+                        value={bedrooms}>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -178,12 +191,14 @@ class EditPostingForm extends Component {
                           <InputGroup.Text>@</InputGroup.Text>
                           </InputGroup.Prepend>
                           <FormControl id="inlineFormInputGroup" type="number" placeholder="USD" 
-                           onChange={(e) =>
+                          onChange={(e) =>{
+                            postingDetails.dailyRate = e.target.value
                             this.setState({
-                              rate: e.target.value,
+                              postingDetails
                             })
                           }
-                          value={rate}
+                          }
+                          value={dailyRate}
                           />
                           </InputGroup>
                       </Form.Group>
@@ -217,4 +232,4 @@ const mapStateToProps = (state) => {
     rental : state.rentals.data
   };
 };
-export default connect(mapStateToProps, {updateRental,fetchRentalByID})(EditPostingForm);
+export default connect(mapStateToProps, {fetchRentalByID})(EditPostingForm);

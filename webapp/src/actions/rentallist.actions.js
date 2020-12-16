@@ -91,18 +91,13 @@ export const fetchRentalByID = id => dispatch => {
     };
   };
 
-  export const updateRental = (id, ...rentalData) => dispatch => {
-    dispatch({ type: UPDATE_RENTAL_INIT });
-    return axios
+  export const updateRental = (id, ...rentalData) => {
+    // dispatch({ type: UPDATE_RENTAL_INIT });
+    return axiosInstance
       .patch(`/postings/${id}`, ...rentalData)
-      .then(response =>
-        dispatch({ type: UPDATE_RENTAL_SUCCESS, payload: response.data })
+      .then(res =>
+        res => res.data,
+        rejected => Promise.reject(getErrorDescription(rejected))
       )
-      .catch(rejected =>
-        dispatch({
-          type: UPDATE_RENTAL_FAIL,
-          payload: getErrorDescription(rejected)
-        })
-      );
   };
   
