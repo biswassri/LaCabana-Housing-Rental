@@ -3,7 +3,7 @@ import {
     FETCH_USER_BOOKINGS_SUCCESS,
     FETCH_USER_BOOKINGS_FAIL,
     UPDATE_BOOKINGS
-  } from "../actions/types";
+  } from "../actions/type";
   
   const INITIAL_STATE = {
     bookings: {

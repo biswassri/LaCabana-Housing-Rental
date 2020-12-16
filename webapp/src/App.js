@@ -39,7 +39,7 @@ class App extends Component {
               <Route exact path='/profile' component={UserProfile} />
               <Route exact path='/bookings/manage' component={ManageBooking} />
 
-              <Route exact path='/room/:city/:id' 
+              <Route exact path='/room/:id' 
                 render={(props) => {
                   if(isLogin){
                     return <PostingDetail {...props}/>
