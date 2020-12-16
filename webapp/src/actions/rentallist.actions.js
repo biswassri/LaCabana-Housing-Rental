@@ -54,16 +54,13 @@ export const fetchRentals = city => {
 
 export const fetchRentalByID = id => dispatch => {
     dispatch({ type: FETCH_RENTAL_BY_ID_INIT });
-    return axios
+    return axiosInstance
       .get(`${constants.BASE_URL_API}/postings/${id}`)
       .then(response =>
-        dispatch({ type: FETCH_RENTAL_BY_ID_SUCCESS, payload: response.data })
+        response
       )
       .catch(rejected =>
-        dispatch({
-          type: FETCH_RENTAL_BY_ID_FAIL,
-          payload: getErrorDescription(rejected)
-        })
+        Promise.reject(getErrorDescription(rejected))
       );
   };
 

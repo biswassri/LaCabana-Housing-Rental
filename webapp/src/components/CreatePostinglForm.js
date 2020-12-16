@@ -46,7 +46,7 @@ class CreatePosting extends Component {
   render() { 
     const { title, description, city, street, category, bedroom, rate, isSuccess } = this.state
     if (isSuccess) {
-      return <Redirect to={`/room/${city}`} />;
+      return <Redirect to={`/room/`} />;
     }
     return ( 
       <div className="page-container">

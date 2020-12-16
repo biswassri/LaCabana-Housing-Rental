@@ -5,12 +5,16 @@ import Header from "../nav";
 import Footer from "../footer";
 import { Container, Row, Col, Form, Button, Alert, InputGroup, FormControl } from "react-bootstrap";
 
-import { updateRental, fetchRentals} from "../../actions/rentallist.actions";
+import { updateRental, fetchRentalByID} from "../../actions/rentallist.actions";
 
 import { Redirect } from "react-router";
 
 class EditPostingForm extends Component {
+  constructor(props){
+    super(props);
+  } 
   state = {
+    postingDetails : '',
     title : '',
     description: '',
     city: '',
@@ -20,8 +24,30 @@ class EditPostingForm extends Component {
     rate: 500,
     isSuccess: false,
   };
+
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id) {
+      this.fetchRentalDetails(id);
+    }
+  }
+
+  fetchRentalDetails=(rentalId) =>{
+    const { postingDetails } = this.state;
+    this.props.fetchRentalByID(rentalId).then(
+      (details) => {
+  //      console.log(details);
+        this.setState({
+          postingDetails: details.data,
+        });
+      },
+      (err) => console.error(err)
+    );
+  }
+
   onSubmitRental = () => {
     let {
+      rentalId = '',
       title = '',
       description = '',
       city = '',
@@ -37,14 +63,24 @@ class EditPostingForm extends Component {
     catch(e){
 
     }
-    updateRental({rentalId, title, description, city, street, category, bedrooms : bedroom, dailyRate : rate})
-    this.setState({
-      isSuccess : true
-    })
-    this.props.fetchRentals()
+    updateRental({rentalId, title, description, city, street, category, bedrooms : bedroom, dailyRate : rate}).then(
+      (details) => alert("Data has been successfuly updated!"),
+      (err) => {
+        console.error(err);
+      }
+    );
   }
   render() { 
-    const { title, description, city, street, category, bedroom, rate, isSuccess } = this.state
+
+    console.log(this.state);
+    console.log("-----------");
+    console.log(this.props);
+
+    console.log("-----------");
+    console.log(this.state.postingDetails);
+
+    console.log("-----------");
+    const { title = '', description = '', city = '', street = '', category = '', bedroom = '', rate ='', isSuccess } = this.state.postingDetails;
     if (isSuccess) {
       return <Redirect to={`/room/${city}`} />;
     }
@@ -62,7 +98,7 @@ class EditPostingForm extends Component {
                       <Form.Label style={{fontSize:'25px', paddingLeft:'35%'}}> Edit Posting</Form.Label>
                       <Form.Group >
                         <Form.Label>Title</Form.Label>
-                        <Form.Control type="text" placeholder="" 
+                        <Form.Control type="type" placeholder="" 
                         onChange={(e) =>
                           this.setState({
                             title: e.target.value,
@@ -176,8 +212,9 @@ class EditPostingForm extends Component {
 }
  
 const mapStateToProps = (state) => {
-  return {  user : state.state,
-  rental : state.rental
+  return {  
+    user : state.state,
+    rental : state.rentals.data
   };
 };
-export default connect(mapStateToProps, {updateRental})(EditPostingForm);
+export default connect(mapStateToProps, {updateRental,fetchRentalByID})(EditPostingForm);
