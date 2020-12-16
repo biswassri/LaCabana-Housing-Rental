@@ -89,5 +89,23 @@
       "email": "test1@gmail.com",
       "password": "testtest1"
     }
-  ]
+  ],
+  "bookings" :[ {
+        "startAt" : "2021-01-05T00:00:00.000Z",
+        "endAt": "2021-01-06T00:00:00.000Z",
+        "totalPrice": 29,
+        "days": 3 ,
+        "guests": 3,
+        "createdAt": "2020-12-15T22:02:25.629Z",
+        "status":  "pending" 
+        }
+      ],
+  "payment":[{
+    "amount": 23,
+    "tokenId": "abc",
+    "charge": "awaiting",
+    "status":  "pending" 
+    
+  }]
+    
 }
