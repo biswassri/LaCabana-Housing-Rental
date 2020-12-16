@@ -2,7 +2,7 @@ import {
     FETCH_USER_BOOKINGS_INIT,
     FETCH_USER_BOOKINGS_SUCCESS,
     FETCH_USER_BOOKINGS_FAIL,
-   
+    UPDATE_BOOKINGS
   } from "../actions/type";
   
   const INITIAL_STATE = {
@@ -24,9 +24,10 @@ import {
       case FETCH_USER_BOOKINGS_FAIL: {
         return { ...state, errors: action.payload, isFetching: false };
       }
-      
+      case UPDATE_BOOKINGS: {
+        return { ...state, data: action.bookings, isFetching: false };
+      }
       default:
         return state;
     }
   };
-  

@@ -52,7 +52,7 @@ class Header extends Component {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/bookings/manage">Manage Bookings</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="//user/profile">User Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">User Profile</NavDropdown.Item>
               </NavDropdown>
             ) : ""}
             {isLogin ? (
