@@ -47,9 +47,6 @@ class Register extends Component {
                   <section id="register">
                     <div className="bwm-form">
                       <div className="row">
-                        <h2 className="catchphrase">
-                          Welcome to the world of fine living!
-                       </h2>
                         <div className="col-md-5">
                           <h1>Register</h1>
                           <RegisterForm submitCb={this.registerUser} errors={errors} />
