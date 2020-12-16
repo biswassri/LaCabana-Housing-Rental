@@ -7,10 +7,13 @@ import {
   FETCH_RENTALS_FAIL,
   FETCH_RENTAL_BY_ID_INIT,
   FETCH_RENTAL_BY_ID_SUCCESS,
-  FETCH_RENTAL_BY_ID_FAIL
+  FETCH_RENTAL_BY_ID_FAIL,
+  UPDATE_RENTAL_INIT,
+  UPDATE_RENTAL_SUCCESS,
+  UPDATE_RENTAL_FAIL
 } from "./type";
 
-const axiosInstance = axiosService.getInstance();
+
 
 function getErrorDescription(rejected) {
     return rejected.response
@@ -54,10 +57,26 @@ export const fetchRentalByID = id => dispatch => {
   };
 
   export const createRental = rentalData => {
-    return axiosInstance
+    return axios
       .post("/postings/", { ...rentalData })
       .then(
         res => res.data,
         rejected => Promise.reject(getErrorDescription(rejected))
       );
   };
+
+  export const updateRental = (id, rentalData) => dispatch => {
+    dispatch({ type: UPDATE_RENTAL_INIT });
+    return axios
+      .patch(`/rentals/${id}`, rentalData)
+      .then(response =>
+        dispatch({ type: UPDATE_RENTAL_SUCCESS, payload: response.data })
+      )
+      .catch(rejected =>
+        dispatch({
+          type: UPDATE_RENTAL_FAIL,
+          payload: getErrorDescription(rejected)
+        })
+      );
+  };
+  

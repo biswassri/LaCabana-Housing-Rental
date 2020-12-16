@@ -5,6 +5,9 @@ import {
   FETCH_RENTAL_BY_ID_INIT,
   FETCH_RENTAL_BY_ID_SUCCESS,
   FETCH_RENTAL_BY_ID_FAIL,
+  UPDATE_RENTAL_INIT,
+  UPDATE_RENTAL_SUCCESS,
+  UPDATE_RENTAL_FAIL
 } from "../actions/type";
 
 const INITIAL_STATE = {
@@ -36,8 +39,16 @@ export const singleRentalReducer = (state = INITIAL_STATE.rentals, action) => {
     case FETCH_RENTAL_BY_ID_INIT: {
       return { ...state, data: {}, errors: [] };
     }
-
+    case UPDATE_RENTAL_INIT: {
+      return { ...state, errors: [], isUpdating: true };
+    }
     case FETCH_RENTAL_BY_ID_SUCCESS:
+    case UPDATE_RENTAL_SUCCESS: {
+        return { ...state, data: action.payload, isUpdating: false };
+    }
+    case UPDATE_RENTAL_FAIL: {
+      return { ...state, errors: action.payload, isUpdating: false };
+    } 
 
     case FETCH_RENTAL_BY_ID_FAIL:
 

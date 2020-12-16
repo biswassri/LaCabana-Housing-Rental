@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import  RentalAssets from "./amenities";
 
 const PostingDetailInfo = ({ rental }) => {
-  return (
+  console.log(rental);
+   return (
     <div className="rental">
       <div className="d-flex justify-content-between">
         <h2 className={`rental-type ${rental.category}`}>
@@ -39,7 +40,4 @@ const PostingDetailInfo = ({ rental }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return { rental: state.rental.data };
-};
-export default connect(mapStateToProps)(PostingDetailInfo);
+export default PostingDetailInfo;

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import RentalForm from "./RentalForm";
-import { updateRental } from "../../actions";
+import RentalForm from "./PostingForm";
+import { updateRental } from "../../actions/rentallist.actions";
 
-class postingDetails extends Component {
+class RentalDetailUpdate extends Component {
   constructor() {
     super();
 
