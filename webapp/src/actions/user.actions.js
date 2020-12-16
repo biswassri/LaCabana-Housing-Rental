@@ -35,6 +35,7 @@ export const loginFailure = (errors) => {
 export const loginSuccess = () => {
   let userDetails = authService.getUserDetails();
   const {
+    userId = "",
     username = "",
     email = "",
     firstname = "",
@@ -44,6 +45,7 @@ export const loginSuccess = () => {
   } = userDetails;
   return {
     type: LOGIN_SUCCESS_ACT,
+    userId,
     username,
     email,
     firstname,

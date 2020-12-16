@@ -8,7 +8,7 @@ import Home from './components/Home';
 import DetailList from './components/DetailView';
 import Login from './components/login-container/Login';
 import CreatePosting from './components/CreatePostinglForm';
-import UserProfile from './components/user';
+import UserProfile from './components/profile';
 import PostingDetail from './components/posting-container/posting';
 
 
@@ -35,7 +35,7 @@ class App extends Component {
                 }} 
               />
               <Route exact path='/postings/new' component={CreatePosting} />
-              <Route exact path='/user/:id' component={UserProfile} />
+              <Route exact path='/profile' component={UserProfile} />
 
               <Route exact path='/room/:city/:id' 
                 render={(props) => {
