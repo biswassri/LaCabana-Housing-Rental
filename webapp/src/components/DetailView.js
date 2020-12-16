@@ -13,6 +13,7 @@ class RoomDetails extends Component {
   }
 
   renderList() {
+    
     return this.props.rentals.map((rental) => {
       return <PostingCard key={rental._id} rental={rental} />;
     });

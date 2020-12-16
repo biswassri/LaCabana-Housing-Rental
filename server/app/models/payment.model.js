@@ -37,5 +37,6 @@ const paymentSchema = new Schema({
   return this._id.toHexString();
 });
 paymentSchema.set('toJSON', { virtuals: true });
+
 const model = mongoose.model('Payment', paymentSchema);
 export default model;
