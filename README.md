@@ -29,6 +29,6 @@ Change your directory to webapp and run the following commands:
 
 ## Project Sample 
 
-![Landing Page](/Users/srijonibiswas/temp/LaCabana-Housing-Rental/landing.jpg)
+![Landing Page](landing.jpg)
 ![Viewing Rental Page](/Users/srijonibiswas/temp/LaCabana-Housing-Rental/Viewing.jpg)
 ![Login Page](/Users/srijonibiswas/temp/LaCabana-Housing-Rental/Login.jpg)
