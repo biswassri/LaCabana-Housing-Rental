@@ -8,6 +8,11 @@ The main objectives of the project can be summarized as follows:
 2. Provide students with listings depending on budget and location preferences
 3. Connect local brokers and landlords directly to students via the application
 
+### Technologies Used
+- React JS
+- Redux Store
+- ReactBootStrapping
+
 ### Key Fetures:
 
 - Email Integration
